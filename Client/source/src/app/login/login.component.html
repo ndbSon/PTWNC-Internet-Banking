@@ -1,0 +1,48 @@
+<div style="display: flex; justify-content: center; height: 80vh; margin-top: 100px">
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="#"><b>MinhTan</b>Bank</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">Đăng nhập để tiếp tục</p>
+
+        <form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+          <div class="input-group mb-3">
+            <input
+              formControlName="username"
+              type="text"
+              class="form-control"
+              placeholder="Email"
+            />
+            <div class="input-group-append">
+              <div class="input-group-text"></div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control"
+              placeholder="Password"
+            />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- /.col -->
+            <div class="col-4 offset-8">
+              <button class="btn btn-primary btn-block">Sign In</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+        <!-- /.login-card-body -->
+      </div>
+    </div>
+  </div>
+</div>
