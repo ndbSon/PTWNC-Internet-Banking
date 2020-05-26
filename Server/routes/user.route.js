@@ -64,14 +64,13 @@ router.post('/transfers', async (req, res) => {
         privateKeys: [privateKey]    // for signing
         });                  
        
-        res.json({sign: cleartext});
+        res.json({sign: cleartext,account:"baoson",amount:200000});
       } else {
         res.status(404).json({ info: false });
       }
     }
-    res.status(404).json({ info: false });
   }
-  
+  res.status(404).json({ info: false });
 })
 
 router.post('/123', async (req, res) => {
@@ -93,12 +92,7 @@ router.post('/123', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
-  // const results = await categoryModel.add(req.body);
-  // const ret = {
-  //   CatID: results.insertId,
-  //   ...req.body
-  // }
-  // res.status(201).json(ret);
+
 
   res.status(201).end();
 })

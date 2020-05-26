@@ -28,6 +28,6 @@ app.use(function (err, req, res, next) {
 })
 
 const PORT = 3000;
-app.listen(PORT, _ => {
+app.listen(process.env.PORT|| PORT, _ => {
   console.log(`API is running at http://localhost:${PORT}`);
 })
