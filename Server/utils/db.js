@@ -10,4 +10,6 @@ module.exports = {
   load: sql => pool_query(sql),
   add: (entity, tableName) => pool_query(`insert into ${tableName} set ?`, entity),
   del: (condition, tableName) => pool_query(`delete from ${tableName} where ?`, condition),
+  update:(entity,condition,tableName) => pool_query(`UPDATE ${tableName} SET ? WHERE ?`,[entity,condition]),
+  detail: (condition,tableName)=> pool_query(`select * from ${tableName} where ?`,condition),
 };
