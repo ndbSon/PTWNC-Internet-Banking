@@ -1,11 +1,11 @@
 {
   "mysql": {
     "connectionLimit": 100,
-    "host": "localhost",
+    "host": "us-cdbr-east-05.cleardb.net",
     "port": 3306,
-    "user": "root",
-    "password": "123456",
-    "database": "internetbanking"
+    "user": "b9514069fc15d8",
+    "password": "ecac4a5e",
+    "database": "heroku_cde27c5c75b3548"
   },
   "auth": {
     "secret": "bankSQT",
