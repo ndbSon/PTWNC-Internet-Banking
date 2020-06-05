@@ -5,6 +5,7 @@ const config = require('../config/default.json');
 const { totp } = require('otplib');
 const jwt = require('jsonwebtoken');
 const randToken = require('rand-token');
+const bcrypt = require('bcryptjs');
 // const jwt_decode = require('jwt-decode');
 const nodemailer = require("nodemailer");
 
@@ -12,12 +13,32 @@ const createError = require('http-errors');
 
 const router = express.Router();
 
+router.post('/signup', async (req, res) => {
+  // body = {
+  //   "Name": "admin",
+  //   "Password": "admin",
+  //   "Email":"nhoxsojv@gmail.com",
+  //   "Permission": 1,
+  // }
+  let entity= req.body;
+  const hash = bcrypt.hashSync(entity.Password, 8);
+  entity.Password= hash;
+  const ret = await authModel.signup(entity);
+  if(ret === 1){
+    return res.status(400).json({succes:"1"});
+  }else if(ret ===2){
+    return res.status(400).json({succes:"2"});
+  }
+  return res.json({succes:true});
+})
+
 router.post('/login', async (req, res) => {
     // entity = {
     //   "Name": "admin",
     //   "Password": "admin"
     // }
-  const ret = await authModel.login(req.body);
+  let entity= req.body;
+  const ret = await authModel.login(entity);
   if (ret === null) {
     return res.json({
       authenticated: false
@@ -27,7 +48,7 @@ router.post('/login', async (req, res) => {
   const accessToken = generateAccessToken(userId);
 
   const refreshToken = randToken.generate(config.auth.refreshTokenSz);
-  await userModel.updateRefreshToken(userId, refreshToken);
+  await authModel.updateRefreshToken(userId, refreshToken);
 
   res.json({
     // authenticated: true,
@@ -40,11 +61,10 @@ router.post('/refreshToken', async (req, res) => {
   //   accessToken,
   //   refreshToken
   // }
-
   // const { userId } = jwt_decode(req.body.accessToken);
   jwt.verify(req.body.accessToken, config.auth.secret, { ignoreExpiration: true }, async function (err, payload) {
     const { userId } = payload;
-    const ret = await userModel.verifyRefreshToken(userId, req.body.refreshToken);
+    const ret = await authModel.verifyRefreshToken(userId, req.body.refreshToken);
     if (ret === false) {
       throw createError(400, 'Invalid refresh token.');
     }
@@ -62,8 +82,7 @@ const generateAccessToken = userId => {
     return accessToken;
 }
 
-
-//router Test /////////////////////////////////////
+//router Test OTP/////////////////////////////////////
 
 router.post('/checkotp', async (req, res) => {
   var {token}=req.body;
@@ -76,9 +95,13 @@ router.post('/checkotp', async (req, res) => {
 
 router.post('/sendotp', async (req, res) => {
    //req.body{ Name,gmail} gửi lên
-  totp.options = { step: 180 }; // set ts otp 180s
+  totp.options = { step: 300 }; // set ts otp 300s
   const token = totp.generate("baoson123");
   console.log(token);
+  let verify = await authModel.verifySendOTP(req.body);
+  if(verify==false){
+    return res.json({succes:false});
+  }
   var transporter =  nodemailer.createTransport({ // config mail server
     host: 'smtp.gmail.com',
     port: 465,
@@ -112,13 +135,27 @@ router.post('/sendotp', async (req, res) => {
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
-      res.json({succes:false})
+      return res.json({succes:false})
     } else {
       console.log('Email sent: ' + info.response);
-      res.json({succes:true})
+      return res.json({succes:true})
     }
   });
 });
+
+router.post('/forgetPassword',async (req, res) => {
+   //req.body{Name,newPassword,token} gửi lên
+   var {Name,Password,token}=req.body;
+   const isValid1 = totp.check(token, "baoson123");
+   if(isValid1===true){
+    const hash = bcrypt.hashSync(Password, 8);
+    await userModel.update({Password:hash},{Name});
+    return res.json({succes:true})
+   }
+   return res.json({succes:false})
+})
+
+
 
 
 

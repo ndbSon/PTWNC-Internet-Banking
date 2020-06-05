@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
       if (err)
         throw createError(401, err);
 
-      // console.log(payload);
+      console.log(payload);
       req.tokenPayload = payload;
       next();
     })
