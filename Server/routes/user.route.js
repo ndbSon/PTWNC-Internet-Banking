@@ -23,12 +23,14 @@ router.post('/detail', async (req, res) => {
   };
   let sigcompare = hash(data.ts + data.body + "secretkey"); //secretkey 
   if(ts<=moment().unix()-150){
+    console.log(`26${ts}`);
+    console.log(`27${data.sig} va ${sigcompare}`)
     if (data.sig === sigcompare) {
       // query de lay du lieu tra ve info
       res.json({ info: "thông tin user" });
     }
   }
-  res.status(404).json({ info: false });
+  res.status(404).json({ info: false });  
 })
 
 /// passphrase :baoson123 PGP
@@ -75,20 +77,17 @@ router.post('/transfers', async (req, res) => {
 })
 
 router.post('/123', async (req, res) => {
-  const privateKeyArmored = fs.readFileSync(path.join(__dirname, '../public/privateKeyPGP.asc'),'utf8'); // encrypted private key
+  const privateKeyArmored = fs.readFileSync(path.join(__dirname, '../public/Key/privateKeyPGP.asc'),'utf8'); // encrypted private key
   const passphrase = `baoson123`; // what the private key is encrypted with
   const { keys: [privateKey] } = await openpgp.key.readArmored(privateKeyArmored);
 
   await privateKey.decrypt(passphrase);
-  let con =req.body;
   const { data: cleartext } = await openpgp.sign({
       message: openpgp.cleartext.fromText("hello"), // CleartextMessage or Message object
       privateKeys: [privateKey]                     // for signing
   });
   console.log(cleartext);
-
-
-  res.json(cleartext)
+  res.json(cleartext.message);
 })
 
 
