@@ -15,16 +15,17 @@ app.use('/user', require('./routes/user.route'));
 app.use('/customer',verify, require('./routes/customer.route'));
 app.use('/employee',verify, require('./routes/employee.route'));
 app.use('/banks', require('./routes/banks.route'));
+app.use('/admin', require('./routes/admin.route'));
 // app.use('/api/products', require('./routes/product.route'));
 
 app.use((req, res, next) => {
-  res.status(404).send('NOT FOUND');
+  res.status(404).json({succes:false});
 })
 app.use(function (err, req, res, next) {
   console.log(err.stack);
   // console.log(err.status);
   const statusCode = err.status || 500;
-  res.status(statusCode).send('View error log on console.');
+  res.status(statusCode).send({succes:false});
 })
 
 const PORT = 3000;

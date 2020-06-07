@@ -9,7 +9,7 @@ module.exports = {
     detailremind: condition => db.detail(condition, 'accountremind'),
     detaildebit: condition => db.detail(condition, 'debit'),
     detailtransaction: condition => db.detail(condition, 'transaction'),
-    detaildone: condition => db.all(`SELECT transaction.* FROM transaction INNER JOIN (select * from debit where Done=1 and Iddebit="${condition}" ) as debit on debit.Idtransaction=transaction.Id`),
+    detaildone: condition => db.load(`SELECT transaction.* FROM transaction INNER JOIN (select * from debit where Done=1 and Iddebit="${condition}" ) as debit on debit.Idtransaction=transaction.Id`),
 
     addaccountremind: entity => db.add(entity, 'accountremind'),
     addtransaction: entity => db.add(entity, 'transaction'),

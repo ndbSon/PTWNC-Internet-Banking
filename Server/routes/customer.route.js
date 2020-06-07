@@ -84,26 +84,34 @@ router.post('/tranfers', async (req, res) => {
     var { token, Amount, Id, Content, charge} = req.body;
     const isValid = totp.verify({ token, secret: "baoson123" });
     let fmoney,tmoney;
+    
     if (isValid === false) {
         return res.status(400).json({ succes: false, text: "Sai OTP" });
-    }
-    let paymet = await customnerModel.detailpayment({ Iduser: req.tokenPayload.userId });
-    if (Amount > parseInt(paymet[0].Amount)) {
-        if(charge==0){
-            fmoney =parseInt(paymet[0].Amount) - Amount - 10;
-            tmoney = parseInt(ac[0].Amount) +Amount;
-        }else if(charge==1){
-            fmoney =parseInt(paymet[0].Amount) - Amount;
-            tmoney = parseInt(ac[0].Amount) +Amount - 10;
-        }else{
-            return  res.status(400).json({ succes: false});
-        }
-        return res.status(400).json({ succes: false, text: "Tài Khoản Không Đủ" });
     }
     let ac = await customnerModel.detailpayment({ Id: Id });
     if (ac.length == 0) {
         return res.status(400).json({ succes: false, text: "Tài Khoản Không Tồn Tại" });
     }
+    let paymet = await customnerModel.detailpayment({ Iduser: req.tokenPayload.userId });
+    console.log("Amount:  ",Amount,typeof Amount," --  ",parseInt(paymet[0].Amount))
+    if (Amount < parseInt(paymet[0].Amount)) {
+        console.log("charge:  ",charge,"  -  ",typeof charge)
+        if(charge===0){
+            fmoney =parseInt(paymet[0].Amount) - Amount - 10;
+            tmoney = parseInt(ac[0].Amount) +Amount;
+            console.log("0:  ",fmoney,"  -  ",tmoney)
+        }else if(charge===1){
+            fmoney =parseInt(paymet[0].Amount) - Amount;
+            tmoney = parseInt(ac[0].Amount) +Amount - 10;
+            console.log("1:  ",fmoney,"  -  ",tmoney)
+        }else{
+            return  res.status(400).json({ succes: false});
+        }
+       
+    }else{
+        return res.status(400).json({ succes: false, text: "Tài Khoản Không Đủ" });
+    }
+    
     let entity = {
         Amount,
         Fromacount: paymet[0].Id,
@@ -119,6 +127,7 @@ router.post('/tranfers', async (req, res) => {
 
     res.json({succes:true , Idtransaction: result.insertId});
 })
+
 router.post('/addebit', async (req, res) => {
     // body={
     //     Iddebit, số tài khoản nợ
@@ -146,7 +155,7 @@ router.get('/debit', async (req, res) => {
 router.post('/donedebit', async (req, res) => {
     // id debit
     // Idtransaction 
-    let a =await customnerModel.updatedebit({Done:1, Idtransaction},{Id:req.body.Id});
+    let a =await customnerModel.updatedebit({Done:1, Idtransaction:req.body.Idtransaction},{Id:req.body.Id});
     if(a.affectedRows==1){
         res.json({succes:true});
     }else{
