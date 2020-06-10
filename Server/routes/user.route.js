@@ -56,10 +56,11 @@ router.post('/login', async (req, res) => {
     refreshToken
   })
 })
+
 router.post('/refreshToken', async (req, res) => {
   // req.body = {
-  //   accessToken,
-  //   refreshToken
+    // accessToken,
+    // refreshToken
   // }
   // const { userId } = jwt_decode(req.body.accessToken);
   jwt.verify(req.body.accessToken, config.auth.secret, { ignoreExpiration: true }, async function (err, payload) {
@@ -73,6 +74,7 @@ router.post('/refreshToken', async (req, res) => {
     res.json({ accessToken });
   })
 });
+
 const generateAccessToken = userId => {
     const payload = { userId };
     const accessToken = jwt.sign(payload, config.auth.secret, {
