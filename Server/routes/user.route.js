@@ -44,11 +44,14 @@ router.post('/login', async (req, res) => {
       authenticated: false
     })
   }
-  const userId = ret.Id;
-  const accessToken = generateAccessToken(userId);
+  const info = {
+    userId:ret.Id,
+    Permission: ret.Permission
+  };
+  const accessToken = generateAccessToken(info);
 
   const refreshToken = randToken.generate(config.auth.refreshTokenSz);
-  await authModel.updateRefreshToken(userId, refreshToken);
+  await authModel.updateRefreshToken(info.userId, refreshToken);
 
   res.json({
     // authenticated: true,
@@ -75,8 +78,8 @@ router.post('/refreshToken', async (req, res) => {
   })
 });
 
-const generateAccessToken = userId => {
-    const payload = { userId };
+const generateAccessToken = info => {
+    const payload = info;
     const accessToken = jwt.sign(payload, config.auth.secret, {
       expiresIn: config.auth.expiresIn
     });

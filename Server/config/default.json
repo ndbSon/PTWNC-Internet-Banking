@@ -9,7 +9,7 @@
   },
   "auth": {
     "secret": "bankSQT",
-    "expiresIn": "10m",
+    "expiresIn": "20m",
     "refreshTokenSz": 80
   }
 }
