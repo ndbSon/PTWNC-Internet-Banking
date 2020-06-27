@@ -14,7 +14,8 @@ app.use(express.json());
 app.use('/user', require('./routes/user.route'));
 app.use('/customer',verify.customer, require('./routes/customer.route'));
 app.use('/employee',verify.employee, require('./routes/employee.route'));
-app.use('/banks', require('./routes/banks.route'));
+app.use('/mybanks',verify.customer, require('./routes/mybanks.route'));
+app.use('/banks', require('./routes/otherbanks.route'));
 app.use('/admin',verify.admin, require('./routes/admin.route'));
 
 app.use((req, res, next) => {
