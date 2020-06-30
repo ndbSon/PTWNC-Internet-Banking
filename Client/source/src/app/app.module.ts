@@ -27,6 +27,7 @@ import { TransferComponent } from './customer/transfer/transfer.component';
 import { DebitComponent } from './customer/debit/debit.component';
 import { HistoryComponent } from './customer/history/history.component';
 import { TransactionHistoryComponent } from './employee/transaction-history/transaction-history.component';
+import { CustomerComponent } from './customer/customer.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { TransactionHistoryComponent } from './employee/transaction-history/tran
     DebitComponent,
     HistoryComponent,
     TransactionHistoryComponent,
+    CustomerComponent,
   ],
   imports: [
     BrowserModule,

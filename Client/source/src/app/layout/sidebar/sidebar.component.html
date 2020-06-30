@@ -23,21 +23,21 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           
           <li class="nav-item">
-            <a routerLink="admin" class="nav-link" *ngIf="user.permission == 3">
+            <a routerLink="/admin" class="nav-link" *ngIf="user.permission == 3">
               <p>
                 Admin
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="employee" class="nav-link" *ngIf="user.permission == 2">
+            <a routerLink="/employee" class="nav-link" *ngIf="user.permission == 2">
               <p>
                 Nhân viên
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="customer" class="nav-link" *ngIf="user.permission == 1">
+            <a routerLink="/customer" class="nav-link" *ngIf="user.permission == 1">
               <p>
                 Khách hàng
               </p>

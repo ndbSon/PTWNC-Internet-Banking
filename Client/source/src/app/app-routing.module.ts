@@ -6,6 +6,12 @@ import { LoginComponent } from "./login/login.component";
 import { ListInfoComponent } from "./admin/list-info/list-info.component";
 import { CreateInfoComponent } from "./admin/create-info/create-info.component";
 import { ViewTransactionsComponent } from "./admin/view-transactions/view-transactions.component";
+import { CustomerComponent } from "./customer/customer.component";
+import { ChangePasswordComponent } from "./customer/change-password/change-password.component";
+import { HistoryComponent } from "./customer/history/history.component";
+import { ListRecipientsComponent } from "./customer/list-recipients/list-recipients.component";
+import { DebitComponent } from "./customer/debit/debit.component";
+import { TransferComponent } from "./customer/transfer/transfer.component";
 
 const routes: Routes = [
   {
@@ -17,6 +23,36 @@ const routes: Routes = [
     path: "login",
     component: LoginComponent,
   },
+  {
+    path: "customer",
+    component: CustomerComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "customer/list-account",
+    component: CreateInfoComponent,
+  },
+  {
+    path: "customer/change-password",
+    component: ChangePasswordComponent,
+  },
+  {
+    path: "customer/history",
+    component: HistoryComponent,
+  },
+  {
+    path: "customer/list-recipients",
+    component: ListRecipientsComponent,
+  },
+  {
+    path: "customer/debit",
+    component: DebitComponent,
+  },
+  {
+    path: "customer/transfer",
+    component: TransferComponent,
+  },
+
   {
     path: "admin",
     component: ListInfoComponent,
