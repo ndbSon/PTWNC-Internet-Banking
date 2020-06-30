@@ -16,7 +16,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <p>{{ user.username }}</p>
+          <p>{{ currentUser.Name || "Null"}}</p>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
@@ -24,7 +24,7 @@
             Đổi mật khẩu
           </a>
           <div class="dropdown-divider"></div>
-          <a (click)="logOut()" class="dropdown-item">
+          <a (click)="logout()" class="dropdown-item">
             Đăng xuất
           </a>
         </div>

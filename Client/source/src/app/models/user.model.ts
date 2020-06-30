@@ -1,4 +1,9 @@
 export class User {
-    username: string;
-    password: string;
+    Name: string;
+    userId: number;
+    permission: number;
+    iat: number;
+    exp: number;
+    accessToken: string;
+    refreshToken: string;
   }

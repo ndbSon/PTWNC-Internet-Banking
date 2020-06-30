@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrlBankRsa: 'https://qlbank1.herokuapp.com/api/external'
+  apiUrlBankRsa: 'https://ptwncinternetbanking.herokuapp.com'
 };
 
 /*

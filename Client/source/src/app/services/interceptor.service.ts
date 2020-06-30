@@ -5,15 +5,17 @@ import {
   HttpHandler,
   HttpEvent,
   HttpResponse,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { map, catchError, finalize } from "rxjs/operators";
 import { SpinnerService } from "./spinner.service";
+import { AuthService } from "../helpers/auth.service";
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(
-    public spinner: SpinnerService
+    public spinner: SpinnerService,
+    private authService: AuthService
   ) {}
   intercept(
     req: HttpRequest<any>,
@@ -29,13 +31,18 @@ export class AuthInterceptorService implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {
         let data = {
           code: err.status,
-          message: err.error || "Có lỗi xảy ra, vui lòng báo cáo cho bộ phận kĩ thuật!"
+          message:
+            err.error ||
+            "Có lỗi xảy ra, vui lòng báo cáo cho bộ phận kĩ thuật!",
         };
-        console.log(data.message);
+        this.authService.logout();
+        location.reload(true);
         // this.message.error(data.message);
         return throwError(err);
       }),
-      finalize(() => this.spinner.hide())
+      finalize(() => {
+        this.spinner.hide();
+      })
     );
   }
 }
