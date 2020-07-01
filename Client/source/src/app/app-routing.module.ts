@@ -12,6 +12,7 @@ import { HistoryComponent } from "./customer/history/history.component";
 import { ListRecipientsComponent } from "./customer/list-recipients/list-recipients.component";
 import { DebitComponent } from "./customer/debit/debit.component";
 import { TransferComponent } from "./customer/transfer/transfer.component";
+import { ListAccountComponent } from './customer/list-account/list-account.component';
 
 const routes: Routes = [
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: "customer/list-account",
-    component: CreateInfoComponent,
+    component: ListAccountComponent,
   },
   {
     path: "customer/change-password",

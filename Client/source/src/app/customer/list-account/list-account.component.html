@@ -1,1 +1,75 @@
-<p>list-account works!</p>
+<div class="content-header">
+  <h3>
+    Danh sách tài khoản
+  </h3>
+</div>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Thanh toán</h3>
+          </div>
+          <ngx-datatable
+            class="dark"
+            [rows]="payRows"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Id', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="Số tài khoản">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Id }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Số dư">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Amount }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Tiết kiệm</h3>
+          </div>
+          <ngx-datatable
+            class="material"
+            [rows]="savingRows"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Id', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="Số tài khoản">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Id }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Số dư">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Amount }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

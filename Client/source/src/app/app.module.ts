@@ -19,15 +19,16 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { SpinnerService } from "./services/spinner.service";
 import { AuthInterceptorService } from "./services/interceptor.service";
 import { AuthGuard } from "./helpers/auth.guard";
-import { JwtInterceptor } from './helpers/jwt.interceptor';
-import { ChangePasswordComponent } from './customer/change-password/change-password.component';
-import { ListAccountComponent } from './customer/list-account/list-account.component';
-import { ListRecipientsComponent } from './customer/list-recipients/list-recipients.component';
-import { TransferComponent } from './customer/transfer/transfer.component';
-import { DebitComponent } from './customer/debit/debit.component';
-import { HistoryComponent } from './customer/history/history.component';
-import { TransactionHistoryComponent } from './employee/transaction-history/transaction-history.component';
-import { CustomerComponent } from './customer/customer.component';
+import { JwtInterceptor } from "./helpers/jwt.interceptor";
+import { ChangePasswordComponent } from "./customer/change-password/change-password.component";
+import { ListAccountComponent } from "./customer/list-account/list-account.component";
+import { ListRecipientsComponent } from "./customer/list-recipients/list-recipients.component";
+import { TransferComponent } from "./customer/transfer/transfer.component";
+import { DebitComponent } from "./customer/debit/debit.component";
+import { HistoryComponent } from "./customer/history/history.component";
+import { TransactionHistoryComponent } from "./employee/transaction-history/transaction-history.component";
+import { CustomerComponent } from "./customer/customer.component";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 
 @NgModule({
   declarations: [
@@ -58,16 +59,16 @@ import { CustomerComponent } from './customer/customer.component';
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     HttpClientModule,
+    NgxDatatableModule,
   ],
   providers: [
     SpinnerService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
     },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    AuthGuard,
   ],
   bootstrap: [AppComponent],
 })
