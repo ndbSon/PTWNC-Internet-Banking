@@ -49,5 +49,10 @@ router.post('/Money', async (req, res) => {
     res.json({succes:true});
 })
 
+router.get('/account', async (req, res) => {
+    let result = await customnerModel.all();
+    res.json(result)
+})
+
 module.exports = router;
 

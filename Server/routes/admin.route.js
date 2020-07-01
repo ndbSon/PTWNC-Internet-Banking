@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const authModel = require('../models/auth.model');
 const adminModel = require('../models/admin.model');
+const customnerModel = require('../models/customer.model');
+const userModel = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 
 router.post('/signup', async (req, res) => {
@@ -45,6 +47,41 @@ router.get('/transbank', async (req, res) => {
     let {begin,end,Bank} =req.body;
     let trans = await adminModel.transbank(begin,end,Bank);
     res.json({trans})
+})
+
+router.post('/lockacount', async (req, res) => {
+    let {Id} =req.body;
+    let Iduser = await customnerModel.detailpayment({Id});
+    let result = await userModel.update({Permission:0},{Id:Iduser[0].Iduser});
+    res.json(result.message)
+})
+
+router.post('/openlock', async (req, res) => {
+    let {Id} =req.body;
+    let Iduser = await customnerModel.detailpayment({Id});
+    let result = await userModel.update({Permission:1},{Id:Iduser[0].Iduser});
+    res.json(result)
+})
+
+router.get('/account', async (req, res) => {
+    let result = await customnerModel.all();
+    res.json(result)
+})
+
+router.post('/update', async (req, res) => {
+    let {Id,Email,Phone}=req.body;
+    let Iduser = await customnerModel.detailpayment({Id});
+    let result;
+    if(Email===undefined){
+        result = await userModel.update({Phone},{Id:Iduser[0].Iduser});
+    } else if(Phone===undefined){
+        result = await userModel.update({Email},{Id:Iduser[0].Iduser});
+    }else {
+        result = await userModel.update({Email,Phone},{Id:Iduser[0].Iduser});
+    }
+    
+    
+    res.json(result.message)
 })
 
 module.exports = router;

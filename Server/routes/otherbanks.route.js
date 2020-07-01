@@ -18,16 +18,16 @@ router.post('/detail', async (req, res) => {
     nameBank: req.header('nameBank'),
     ts: req.header('ts'),
     sig: req.header('sig'),
-    id: req.body.id,
+    Id: req.body.Id,
   };
   // if(data.nameBank!="SAPHASANBank"){
   //   return res.json({message:false});
   // }
-  let sigcompare = hash(data.ts + data.id + "secretkey"); //secretkey 
+  let sigcompare = hash(data.ts + data.Id + "secretkey"); //secretkey 
   if (data.ts <= moment().unix() + 1500) {
     if (data.sig === sigcompare) {
       // query de lay du lieu tra ve info
-      let info = await banksModel.detailname(data.id)
+      let info = await banksModel.detailname(data.Id)
       console.log("info: ", info[0])
       return res.json({ info: info[0].Name });
     }
