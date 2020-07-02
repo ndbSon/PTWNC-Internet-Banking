@@ -11,7 +11,7 @@ import { HomeComponent } from "./home/home.component";
 import { SpinnerComponent } from "./helpers/spinner/spinner.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatFormFieldModule, MatInputModule } from "@angular/material"
+import { MatFormFieldModule, MatInputModule } from "@angular/material";
 import { CreateInfoComponent } from "./admin/create-info/create-info.component";
 import { ListInfoComponent } from "./admin/list-info/list-info.component";
 import { ViewTransactionsComponent } from "./admin/view-transactions/view-transactions.component";
@@ -30,8 +30,9 @@ import { HistoryComponent } from "./customer/history/history.component";
 import { TransactionHistoryComponent } from "./employee/transaction-history/transaction-history.component";
 import { CustomerComponent } from "./customer/customer.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
+import { ToastrModule } from "ngx-toastr";
+import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     HistoryComponent,
     TransactionHistoryComponent,
     CustomerComponent,
+    InfoEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,9 +68,13 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     NgxDaterangepickerMd.forRoot(),
     MatFormFieldModule,
     MatInputModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: "toast-top-right",
+      preventDuplicates: true,
+    }),
   ],
-  exports: [
-  ],
+  exports: [],
   providers: [
     SpinnerService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,125 +1,66 @@
-<div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Fixed Header Table</h3>
-
-        <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 150px;">
-            <input
-              type="text"
-              name="table_search"
-              class="form-control float-right"
-              placeholder="Search"
-            />
-
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-default">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
+<div class="content-header">
+  <h3>
+    Danh sách tài khoản
+  </h3>
+</div>
+<button routerLink="/admin/view-transaction">Xem giao dịch</button>
+<button routerLink="/create">Tạo mới</button>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Tài khoản</h3>
           </div>
+          <ngx-datatable
+            class="dark"
+            [rows]="accRows"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Id', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="Id" prop="Id">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Id }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Tên">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Name }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Quyền">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Permission }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Hành động" >
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                <button md-icon-button (click)="lock(row.Id)">
+                  <i class="fa fa-ban"></i>
+                </button>
+
+                <button md-icon-button (click)="unlock(row.Id)">
+                  <i class="fa fa-check"></i>
+                </button>
+
+                <button md-icon-button [routerLink]="['/admin/info-edit', row.Id]">
+                  <i class="fa fa-ban"></i>
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
       </div>
-      <!-- /.card-header -->
-      <div class="card-body table-responsive p-0" style="height: 300px;">
-        <table class="table table-head-fixed text-nowrap">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>User</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Reason</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>183</td>
-              <td>John Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-success">Approved</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-            <tr>
-              <td>219</td>
-              <td>Alexander Pierce</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-warning">Pending</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-            <tr>
-              <td>657</td>
-              <td>Bob Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-primary">Approved</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-            <tr>
-              <td>175</td>
-              <td>Mike Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-danger">Denied</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-            <tr>
-              <td>134</td>
-              <td>Jim Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-success">Approved</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-            <tr>
-              <td>494</td>
-              <td>Victoria Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-warning">Pending</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-            <tr>
-              <td>832</td>
-              <td>Michael Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-primary">Approved</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-            <tr>
-              <td>982</td>
-              <td>Rocky Doe</td>
-              <td>11-7-2014</td>
-              <td><span class="tag tag-danger">Denied</span></td>
-              <td>
-                Bacon ipsum dolor sit amet salami venison chicken flank fatback
-                doner.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
   </div>
-</div>
-<!-- /.row -->
+</section>

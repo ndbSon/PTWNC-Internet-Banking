@@ -13,6 +13,8 @@ import { ListRecipientsComponent } from "./customer/list-recipients/list-recipie
 import { DebitComponent } from "./customer/debit/debit.component";
 import { TransferComponent } from "./customer/transfer/transfer.component";
 import { ListAccountComponent } from './customer/list-account/list-account.component';
+import { InfoDetailComponent } from './admin/list-info/info-detail/info-detail.component';
+import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.component';
 
 const routes: Routes = [
   {
@@ -57,16 +59,14 @@ const routes: Routes = [
   {
     path: "admin",
     component: ListInfoComponent,
-    children: [
-      {
-        path: "create-info",
-        component: CreateInfoComponent,
-      },
-      {
-        path: "view-transactions",
-        component: ViewTransactionsComponent,
-      },
-    ],
+  },
+  {
+    path: "admin/info-edit/:id",
+    component: InfoEditComponent,
+  },
+  {
+    path: "admin/view-transaction",
+    component: ViewTransactionsComponent,
   },
   { path: "**", redirectTo: "" },
 ];

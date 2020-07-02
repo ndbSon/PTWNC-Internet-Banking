@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Tạo tài khoản</h1>
+        <h1>Sửa tài khoản</h1>
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
         <!-- jquery validation -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">Tạo</h3>
+            <h3 class="card-title">Sửa</h3>
           </div>
           <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
             <div class="card-body">
@@ -55,43 +55,6 @@
                   formControlName="Phone"
                 />
               </div>
-              <div class="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  placeholder="new pw"
-                  formControlName="Password"
-                />
-                <div *ngIf="f.Password.errors" class="error invalid-feedback">
-                  <div *ngIf="f.Password.errors.required">
-                    Password is required
-                  </div>
-                  <div *ngIf="f.Password.errors.minlength">
-                    Password must be at least 6 characters
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Xác nhận mật khẩu</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  placeholder="confirm"
-                  formControlName="confirmPassword"
-                />
-                <div
-                  *ngIf="f.confirmPassword.errors"
-                  class="error invalid-feedback"
-                >
-                  <div *ngIf="f.confirmPassword.errors.required">
-                    Confirm Password is required
-                  </div>
-                  <div *ngIf="f.confirmPassword.errors.mustMatch">
-                    Passwords must match
-                  </div>
-                </div>
-              </div>
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
@@ -109,3 +72,4 @@
     </div>
   </div>
 </section>
+<button class="btn btn-primary" type="button" routerLink="/admin">Quay lại</button>
