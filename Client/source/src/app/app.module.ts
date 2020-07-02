@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./layout/header/header.component";
@@ -11,6 +11,7 @@ import { HomeComponent } from "./home/home.component";
 import { SpinnerComponent } from "./helpers/spinner/spinner.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatFormFieldModule, MatInputModule } from "@angular/material"
 import { CreateInfoComponent } from "./admin/create-info/create-info.component";
 import { ListInfoComponent } from "./admin/list-info/list-info.component";
 import { ViewTransactionsComponent } from "./admin/view-transactions/view-transactions.component";
@@ -29,6 +30,7 @@ import { HistoryComponent } from "./customer/history/history.component";
 import { TransactionHistoryComponent } from "./employee/transaction-history/transaction-history.component";
 import { CustomerComponent } from "./customer/customer.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,12 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
     MatProgressSpinnerModule,
     HttpClientModule,
     NgxDatatableModule,
+    FormsModule,
+    NgxDaterangepickerMd.forRoot(),
+    MatFormFieldModule,
+    MatInputModule,
+  ],
+  exports: [
   ],
   providers: [
     SpinnerService,
