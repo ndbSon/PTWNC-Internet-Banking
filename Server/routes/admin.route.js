@@ -84,5 +84,16 @@ router.post('/update', async (req, res) => {
     res.json(result.message)
 })
 
+router.get('/detail', async (req, res) => {
+    let {Id}=req.body;
+    let Iduser = await customnerModel.detailpayment({Id});
+    let result = await userModel.detail({Id:Iduser[0].Iduser})
+    res.json({
+        Name:result[0].Name,
+        Email:result[0].Email,
+        Phone:result[0].Phone
+    })
+})
+
 module.exports = router;
 
