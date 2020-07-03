@@ -384,135 +384,30 @@ await privateKey.decrypt(passphrase)
 
 })
 
-// router.post('/transferMoney',async function (req,res) { 
-//   let paymet = await banksModel.detail({ Iduser: req.tokenPayload.userId });
-//   let name = await banksModel.detailname(paymet[0].Id)
-//   const partner_code = "nhom6"
-//   const secret_key = 'day la secret key'
-//   const passphrase = 'baoson123'
-//   const partnerPublicKey = fs.readFileSync(path.join(__dirname, '../public/PGP/hoangsang.asc'), 'utf8'); 
-//   const ourPrivateKey =fs.readFileSync(path.join(__dirname, '../public/myPGP/privateKeyPGP.asc'), 'utf8'); 
-//   let info= {
-//       fromAccountId: paymet[0].Id,
-//       fromFullName : name[0].Name,
-//       fromBankId:'nhom6',
-//       ...req.body
-//   }
-//   // let {
-//   //     toAccountId,
-//   //     toFullName,
-//   //     // fromAccountId,
-//   //     // fromFullName,
-//   //     // fromBankId,
-//   //     transactionAmount
-//   // } = req.body
-
-//   let entryTime =  Math.round((new Date()).getTime()/1000)
-//   req.body.entryTime = entryTime;
-//   info.entryTime=entryTime;
-//   console.log("info: ",info)
-//   const data_hashed = crypto.createHmac('SHA1',secret_key).update(JSON.stringify({
-//       toAccountId,
-//       toFullName,
-//       fromAccountId,
-//       fromFullName,
-//       fromBankId,
-//       transactionAmount,
-//       entryTime
-//       // ...info
-//   })).digest('hex')
-
-//   const { keys: [privateKey] } = await openpgp.key.readArmored(ourPrivateKey)
-//   await privateKey.decrypt(passphrase)
-
-//   let { data: digital_sign } = await openpgp.sign({
-//       message: openpgp.cleartext.fromText(JSON.stringify(req.body)), // CleartextMessage or Message object
-//       privateKeys: [privateKey]                             // for signing
-//   });
-
-//   digital_sign = digital_sign.substring(digital_sign.indexOf('-----BEGIN PGP SIGNATURE-----'),digital_sign.length)
-//   digital_sign = digital_sign.replace(/\r/g,"\\n").replace(/\n/g,"")
-
-//   const { data: bodyData } = await openpgp.encrypt({
-//     message: openpgp.message.fromText(JSON.stringify(req.body)),
-//     publicKeys: (await openpgp.key.readArmored(partnerPublicKey)).keys 
-//   });
-
-//   let data = {
-//       data: bodyData,
-//       digital_sign,
-//       data_hashed
-//   }
-
-//   let instance = axios.create({
-//       baseURL: 'http://34.87.97.142/transactions/receiving-interbank',
-//       timeout: 5000
-//   })
-
-//   instance.interceptors.request.use(
-//       config => {
-//           config.headers.x_partner_code = partner_code
-//           return config
-//       },
-//       error => {
-//           console.log("error ne", error)
-//           return Promise.reject(error)
-//       }
-//   )
-  
-  
-//   instance.interceptors.response.use((response) => {
-//       return response;
-//   }, (error) => {
-//       return Promise.resolve({ error });
-//   });
-
-//   const response = await instance({
-//       method:'post',
-//       url:'',
-//       data
-//   })
-
-//   if (response && !response.error) {
-//       res.status(200).json(response.data)
-//   } else {
-//       if (response && response.error && response.error.response && response.error.response.status) {
-//           res.status(response.error.response.status).json(response.error.response.data)
-//       }
-//   }
-
-// })
-
 router.post('/transferMoney',async function (req,res) {
   const partner_code = "nhom6"
   const secret_key = 'day la secret key'
   const passphrase = 'baoson123'
   const partnerPublicKey = fs.readFileSync(path.join(__dirname, '../public/PGP/hoangsang.asc'), 'utf8'); 
   const ourPrivateKey =fs.readFileSync(path.join(__dirname, '../public/myPGP/privateKeyPGP.asc'), 'utf8'); 
-  let {
-      toAccountId,
-      toFullName,
-      fromAccountId,
-      fromFullName,
-      fromBankId,
-      transactionAmount
-  } = req.body
+  let paymet = await banksModel.detail({ Iduser: req.tokenPayload.userId });
+  let name = await banksModel.detailname(paymet[0].Id);
+  let info= {
+    ...req.body,
+    fromAccountId: paymet[0].Id,
+    fromFullName : name[0].Name,
+    fromBankId:'nhom6'
+}
   let entryTime =  Math.round((new Date()).getTime())
-  req.body.entryTime = entryTime
+  info.entryTime = entryTime
   const data_hashed = crypto.createHmac('SHA1',secret_key).update(JSON.stringify({
-      toAccountId,
-      toFullName,
-      fromAccountId,
-      fromFullName,
-      fromBankId,
-      transactionAmount,
-      entryTime
+      ...info
   })).digest('hex')
   const { keys: [privateKey] } = await openpgp.key.readArmored(ourPrivateKey)
   await privateKey.decrypt(passphrase)
 
   let { data: digital_sign } = await openpgp.sign({
-      message: openpgp.cleartext.fromText(JSON.stringify(req.body)), // CleartextMessage or Message object
+      message: openpgp.cleartext.fromText(JSON.stringify(info)), // CleartextMessage or Message object
       privateKeys: [privateKey]                             // for signing
   });
 
@@ -520,7 +415,7 @@ router.post('/transferMoney',async function (req,res) {
   digital_sign = digital_sign.replace(/\r/g,"\\n").replace(/\n/g,"")
 
   const { data: bodyData } = await openpgp.encrypt({
-    message: openpgp.message.fromText(JSON.stringify(req.body)),
+    message: openpgp.message.fromText(JSON.stringify(info)),
     publicKeys: (await openpgp.key.readArmored(partnerPublicKey)).keys 
   });
 
