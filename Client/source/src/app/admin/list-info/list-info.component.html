@@ -3,19 +3,17 @@
     Danh sách tài khoản
   </h3>
 </div>
-<button routerLink="/admin/view-transaction">Xem giao dịch</button>
-<button routerLink="/create">Tạo mới</button>
+<button routerLink="/admin/view-transaction" style="margin-left: 10px; margin-right: 10px;margin-bottom: 10px;">Xem giao dịch</button>
+<button routerLink="/admin/create">Tạo mới tài khoản</button>
 <section class="content">
   <div class="container-fluid">
     <div class="row">
       <!-- left column -->
       <div class="col-md-12">
         <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Tài khoản</h3>
-          </div>
+          
           <ngx-datatable
-            class="dark"
+            class="material"
             [rows]="accRows"
             [columnMode]="'force'"
             [headerHeight]="50"
@@ -29,12 +27,12 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Tên">
+            <ngx-datatable-column name="Họ Tên">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Name }}
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Quyền">
+            <ngx-datatable-column name="Phân Quyền">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Permission }}
               </ng-template>
@@ -45,16 +43,16 @@
                 let-value="value"
                 ngx-datatable-cell-template
               >
-                <button md-icon-button (click)="lock(row.Id)">
-                  <i class="fa fa-ban"></i>
+                <button md-icon-button (click)="lock(row.Id)" style="margin-right: 5px;"> 
+                  <i class="fa fa-lock"></i>
                 </button>
 
-                <button md-icon-button (click)="unlock(row.Id)">
-                  <i class="fa fa-check"></i>
+                <button md-icon-button (click)="unlock(row.Id)" style="margin-right: 5px;">
+                  <i class="fa fa-unlock"></i>
                 </button>
 
                 <button md-icon-button [routerLink]="['/admin/info-edit', row.Id]">
-                  <i class="fa fa-ban"></i>
+                  <i class="fa fa-edit"></i>
                 </button>
               </ng-template>
             </ngx-datatable-column>

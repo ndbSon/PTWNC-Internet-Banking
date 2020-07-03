@@ -61,6 +61,10 @@ const routes: Routes = [
     component: ListInfoComponent,
   },
   {
+    path: "admin/create",
+    component: CreateInfoComponent,
+  },
+  {
     path: "admin/info-edit/:id",
     component: InfoEditComponent,
   },

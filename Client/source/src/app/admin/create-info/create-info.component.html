@@ -15,17 +15,15 @@
       <div class="col-md-12">
         <!-- jquery validation -->
         <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Tạo</h3>
-          </div>
+        
           <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
             <div class="card-body">
               <div class="form-group">
-                <label>Tên</label>
+                <label>Họ Tên</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="pw"
+                  placeholder="Nhập họ tên"
                   formControlName="Name"
                 />
               </div>
@@ -34,7 +32,7 @@
                 <input
                   type="email"
                   class="form-control"
-                  placeholder="pw"
+                  placeholder="Nhập Email"
                   formControlName="Email"
                 />
                 <div *ngIf="f.Email.errors" class="error invalid-feedback">
@@ -47,11 +45,11 @@
                 </div>
               </div>
               <div class="form-group">
-                <label>Sdt</label>
+                <label>Số điện thoại</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="pw"
+                  placeholder="Nhập SĐT"
                   formControlName="Phone"
                 />
               </div>
@@ -94,14 +92,19 @@
               </div>
             </div>
             <!-- /.card-body -->
+            
             <div class="card-footer">
+              <div class="row">
+              <button class="btn btn-default float-right" type="button" routerLink="/admin"
+                  style="margin-left: 10px; margin-right: 20px;">Quay lại</button>
               <button
                 type="submit"
                 class="btn btn-primary"
                 [disabled]="formSubmit.invalid"
               >
-                Submit
+                Submits
               </button>
+            </div>
             </div>
           </form>
         </div>
