@@ -1,0 +1,49 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Nạp tiền tài khoản</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- jquery validation -->
+
+                <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
+                    <div class="card-body">
+                        <div class="form-group">
+                        <label>Số tài khoản</label>
+                        <input type="text" class="form-control" formControlName="Id" />
+                        </div>
+                      
+                        <div class="form-group">
+                            <label>Số tiền cần nạp (VND)</label>
+                            <input type="text" class="form-control" formControlName="Amount" />
+                        </div>
+                     
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <div class="row">
+                <button class="btn btn-default float-right" type="button" routerLink="/admin"
+                    style="margin-left: 10px; margin-right: 20px;">Quay lại</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="formSubmit.invalid"
+                >
+                  Submit
+                </button>
+              </div>
+              </div>
+        </div>
+    </div>
+</section>

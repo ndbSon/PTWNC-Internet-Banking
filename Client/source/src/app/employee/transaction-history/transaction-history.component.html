@@ -1,1 +1,161 @@
-<p>transaction-history works!</p>
+
+
+<div class="content-header">
+    <h3>
+        Lịch sử giao dịch
+    </h3>
+</div>
+<div class="card-body">
+    <div class="form-group">
+        <label>Số tài khoản</label>
+        <input type="text" class="form-control" placeholder="Nhập Số tài khoản" />
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Giao dịch nhận tiền</h3>
+                    </div>
+                    <ngx-datatable class="material" [rows]="debitRows" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+                        <ngx-datatable-column name="Id" prop="Id">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Id }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Tài khoản chuyển">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Fromacount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Tài khoản nhận">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Toacount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Số tiền">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Amount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Ngày giao dịch">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Date }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Ngân hàng">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Bank }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Giao dịch chuyển khoản</h3>
+                    </div>
+                    <ngx-datatable class="material" [rows]="debitRows" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+                        <ngx-datatable-column name="Id" prop="Id">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Id }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Tài khoản chuyển">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Fromacount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Tài khoản nhận">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Toacount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Số tiền">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Amount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Ngày giao dịch">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Date }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Ngân hàng">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Bank }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Thanh toán nhắc nợ</h3>
+                    </div>
+                    <ngx-datatable class="material" [rows]="debitRows" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+                        <ngx-datatable-column name="Id" prop="Id">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Id }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Tài khoản chuyển">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Fromacount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Tài khoản nhận">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Toacount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Số tiền">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Amount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Ngày giao dịch">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Date }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Ngân hàng">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Bank }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

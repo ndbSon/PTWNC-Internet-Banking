@@ -13,8 +13,11 @@ import { ListRecipientsComponent } from "./customer/list-recipients/list-recipie
 import { DebitComponent } from "./customer/debit/debit.component";
 import { TransferComponent } from "./customer/transfer/transfer.component";
 import { ListAccountComponent } from './customer/list-account/list-account.component';
-import { InfoDetailComponent } from './admin/list-info/info-detail/info-detail.component';
 import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { CreateAccountComponent } from './employee/create-account/create-account.component';
+import { TransactionHistoryComponent } from './employee/transaction-history/transaction-history.component';
+import { TopupComponent } from './employee/topup/topup.component';
 
 const routes: Routes = [
   {
@@ -71,6 +74,22 @@ const routes: Routes = [
   {
     path: "admin/view-transaction",
     component: ViewTransactionsComponent,
+  },
+  {
+    path: "employee",
+    component: EmployeeComponent,
+  },
+  {
+    path: "employee/create",
+    component: CreateAccountComponent,
+  },
+  {
+    path: "employee/top-up",
+    component: TopupComponent,
+  },
+  {
+    path: "employee/transaction-history",
+    component: TransactionHistoryComponent,
   },
   { path: "**", redirectTo: "" },
 ];

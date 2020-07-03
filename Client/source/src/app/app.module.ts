@@ -33,6 +33,8 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ToastrModule } from "ngx-toastr";
 import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { TopupComponent } from './employee/topup/topup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +57,8 @@ import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.compone
     TransactionHistoryComponent,
     CustomerComponent,
     InfoEditComponent,
+    EmployeeComponent,
+    TopupComponent,
   ],
   imports: [
     BrowserModule,
