@@ -33,7 +33,8 @@ router.get('/transaction', async (req, res) => {
     //     begin ngày bắt đầu
     //     end ngày kết thúc
     // }
-    let {begin,end} =req.body;
+    const begin = req.query.begin;
+    const end = req.query.end;
     let debit = await adminModel.detaildone(begin,end);
     let trans = await adminModel.trans(begin,end);
     res.json({ debit, trans})
@@ -44,7 +45,9 @@ router.get('/transbank', async (req, res) => {
     //     begin ngày bắt đầu
     //     end ngày kết thúc
     // }
-    let {begin,end,Bank} =req.body;
+    let begin = req.query.begin;
+    let end = req.query.end;
+    let Bank = req.query.Bank;
     let trans = await adminModel.transbank(begin,end,Bank);
     res.json({trans})
 })
@@ -85,7 +88,7 @@ router.post('/update', async (req, res) => {
 })
 
 router.get('/detail', async (req, res) => {
-    let {Id}=req.body;
+    const Id = req.query.Id;
     let Iduser = await customnerModel.detailpayment({Id});
     let result = await userModel.detail({Id:Iduser[0].Iduser})
     res.json({

@@ -1,7 +1,7 @@
 const db = require('../utils/db');
 
 module.exports = {
-    all: _ => db.load('SELECT u.Name,payment.Id,u.Permission FROM accountpayment as payment, users as u where payment.Iduser=u.Id'),
+    all: _ => db.load('SELECT u.Fullname,u.Name,payment.Id,u.Permission FROM accountpayment as payment, users as u where payment.Iduser=u.Id'),
     //detail: condition => db.detail(condition,'users'),
     //update: (entity,condition)=>db.update(entity,condition,'users')
     detailpayment: condition => db.detail(condition, 'accountpayment'),
@@ -19,7 +19,7 @@ module.exports = {
     updatedebit: (entity,condition)=>db.update(entity,condition,'debit'),
 
     deleteaccountremind: condition => db.del(condition, 'accountremind'),
-    nameaccountremind: IdAcount => db.load(`SELECT u.Name from users as u where u.Id = (SELECT Iduser FROM internetbanking.accountpayment where Id = "${IdAcount}")`),
+    nameaccountremind: IdAcount => db.load(`SELECT u.Fullname from users as u where u.Id = (SELECT Iduser FROM internetbanking.accountpayment where Id = "${IdAcount}")`),
 
 
 

@@ -12,6 +12,7 @@ router.post('/signup', async (req, res) => {
     //   "Email":"nhoxsojv@gmail.com",
     //   "Phone":"0123456789",
     //   "Permission": 1,
+    //    "Fullname":"Nguyen Van A"
     // }
     let entity = {
         ...req.body,
@@ -30,7 +31,7 @@ router.post('/signup', async (req, res) => {
 
 router.get('/transaction', async (req, res) => {
     // body={Id số tài khoản}
-    let { Id } = req.body;
+    const Id = req.query.Id;
     let debit = await customnerModel.detaildone(Id);
     let frAcount = await customnerModel.detailtransaction({ Fromacount: Id });
     let toAcount = await customnerModel.detailtransaction({ Toacount: Id });

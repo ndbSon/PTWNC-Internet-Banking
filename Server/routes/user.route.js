@@ -13,24 +13,7 @@ const createError = require('http-errors');
 
 const router = express.Router();
 
-router.post('/signup', async (req, res) => {
-  // body = {
-  //   "Name": "admin",
-  //   "Password": "admin",
-  //   "Email":"nhoxsojv@gmail.com",
-  //   "Permission": 1,
-  // }
-  let entity= req.body;
-  const hash = bcrypt.hashSync(entity.Password, 8);
-  entity.Password= hash;
-  const ret = await authModel.signup(entity);
-  if(ret === 1){
-    return res.status(400).json({succes:"1"});
-  }else if(ret ===2){
-    return res.status(400).json({succes:"2"});
-  }
-  return res.json({succes:true});
-})
+
 
 router.post('/login', async (req, res) => {
     // entity = {
