@@ -10,7 +10,6 @@ export class ListRecipientsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('list-reci');
   }
 
 }

@@ -12,12 +12,14 @@ import { HistoryComponent } from "./customer/history/history.component";
 import { ListRecipientsComponent } from "./customer/list-recipients/list-recipients.component";
 import { DebitComponent } from "./customer/debit/debit.component";
 import { TransferComponent } from "./customer/transfer/transfer.component";
-import { ListAccountComponent } from './customer/list-account/list-account.component';
-import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.component';
-import { EmployeeComponent } from './employee/employee.component';
-import { CreateAccountComponent } from './employee/create-account/create-account.component';
-import { TransactionHistoryComponent } from './employee/transaction-history/transaction-history.component';
-import { TopupComponent } from './employee/topup/topup.component';
+import { ListAccountComponent } from "./customer/list-account/list-account.component";
+import { InfoEditComponent } from "./admin/list-info/info-edit/info-edit.component";
+import { EmployeeComponent } from "./employee/employee.component";
+import { CreateAccountComponent } from "./employee/create-account/create-account.component";
+import { TransactionHistoryComponent } from "./employee/transaction-history/transaction-history.component";
+import { TopupComponent } from "./employee/topup/topup.component";
+import { RemoveDebitComponent } from "./customer/debit/remove-debit/remove-debit.component";
+import { CreateDebitComponent } from "./customer/debit/create-debit/create-debit.component";
 
 const routes: Routes = [
   {
@@ -53,6 +55,14 @@ const routes: Routes = [
   {
     path: "customer/debit",
     component: DebitComponent,
+  },
+  {
+    path: "customer/debit/create-debit",
+    component: CreateDebitComponent,
+  },
+  {
+    path: "customer/debit/remove-debit",
+    component: RemoveDebitComponent,
   },
   {
     path: "customer/transfer",

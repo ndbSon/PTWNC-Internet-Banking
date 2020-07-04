@@ -20,11 +20,9 @@ export class HistoryComponent implements OnInit {
   };
 
   ngModelChange(e): void {
-      console.log(e);
   }
 
   change(e): void {
-      console.log(e);
   }
 
   open(): void {

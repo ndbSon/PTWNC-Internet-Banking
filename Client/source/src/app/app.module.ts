@@ -35,6 +35,8 @@ import { ToastrModule } from "ngx-toastr";
 import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { TopupComponent } from './employee/topup/topup.component';
+import { CreateDebitComponent } from './customer/debit/create-debit/create-debit.component';
+import { RemoveDebitComponent } from './customer/debit/remove-debit/remove-debit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +61,8 @@ import { TopupComponent } from './employee/topup/topup.component';
     InfoEditComponent,
     EmployeeComponent,
     TopupComponent,
+    CreateDebitComponent,
+    RemoveDebitComponent,
   ],
   imports: [
     BrowserModule,

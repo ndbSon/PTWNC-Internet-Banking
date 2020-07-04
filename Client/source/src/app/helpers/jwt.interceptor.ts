@@ -22,16 +22,13 @@ export class JwtInterceptor implements HttpInterceptor {
       const currentUser = this.service.currentUserValue;
       const isLoggedIn = currentUser && currentUser.accessToken;
       const isApiUrl = request.url.startsWith(environment.apiUrlBankRsa);
-      console.log(isLoggedIn, isApiUrl, isLoggedIn && isApiUrl);
       if (isLoggedIn && isApiUrl) {
-        console.log(currentUser.accessToken);
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
             "x-access-token": `${currentUser.accessToken}`,
           },
         });
-        console.log(1);
       }
 
       return next.handle(request);

@@ -20,7 +20,6 @@ export class ListAccountComponent implements OnInit {
     this.service.getListAccount().subscribe((res) => {
       this.payRows = res.paymet;
       this.savingRows = res.saving;
-      console.log(res, this.payRows);
     });
   }
 }
