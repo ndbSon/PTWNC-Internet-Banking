@@ -5,10 +5,20 @@
 </div>
 <div class="row">
   <div class="col-sm-4">
-    <mat-form-field style="margin-left:20px">
-      <input matInput ngxDaterangepickerMd showCancel="true" placeholder="Choose date" [(ngModel)]="selected"
-        [showDropdowns]="true" [lockStartDate]="false" [customRangeDirection]="false"
-        (ngModelChange)="ngModelChange($event)" (change)="change($event)" /></mat-form-field>
+    <mat-form-field style="margin-left: 20px;">
+      <input
+        startKey="start"
+        endKey="end"
+        matInput
+        ngxDaterangepickerMd
+        showCancel="true"
+        placeholder="Chọn ngày"
+        [(ngModel)]="selected"
+        [showDropdowns]="true"
+        [lockStartDate]="false"
+        [customRangeDirection]="false"
+        (ngModelChange)="ngModelChange($event)"
+    /></mat-form-field>
   </div>
 
   <div class="col-sm-4">
@@ -18,7 +28,6 @@
       <select class="custom-select">
         <option>Tất cả</option>
         <option>Ngân hàng 1</option>
-
       </select>
     </div>
   </div>
@@ -37,8 +46,15 @@
           <div class="card-header">
             <h3 class="card-title">Nhắc nợ</h3>
           </div>
-          <ngx-datatable class="material" [rows]="debitRows" [columnMode]="'force'" [headerHeight]="50"
-            [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+          <ngx-datatable
+            class="material"
+            [rows]="debitRows"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Id', dir: 'asc' }]"
+          >
             <ngx-datatable-column name="Id" prop="Id">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Id }}
@@ -77,31 +93,6 @@
     </div>
   </div>
 </section>
-<div class="row">
-  <div class="col-sm-4">
-    <mat-form-field style="margin-left:20px">
-      <input matInput ngxDaterangepickerMd showCancel="true" placeholder="Choose date" [(ngModel)]="selected"
-        [showDropdowns]="true" [lockStartDate]="false" [customRangeDirection]="false"
-        (ngModelChange)="ngModelChange($event)" (change)="change($event)" /></mat-form-field>
-  </div>
-
-  <div class="col-sm-4">
-    <!-- select -->
-    <div class="form-group">
-      <label>Ngân hàng</label>
-      <select class="custom-select">
-        <option>Tất cả</option>
-        <option>Ngân hàng 1</option>
-
-      </select>
-    </div>
-  </div>
-
-  <div class="col-sm-4">
-    <label>Tổng số tiền giao dịch: </label>
-  </div>
-</div>
-
 <section class="content">
   <div class="container-fluid">
     <div class="row">
@@ -111,8 +102,15 @@
           <div class="card-header">
             <h3 class="card-title">Thanh toán</h3>
           </div>
-          <ngx-datatable class="material" [rows]="tranRows" [columnMode]="'force'" [headerHeight]="50"
-            [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+          <ngx-datatable
+            class="material"
+            [rows]="tranRows"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Id', dir: 'asc' }]"
+          >
             <ngx-datatable-column name="Id" prop="Id">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Id }}
@@ -160,4 +158,11 @@
     </div>
   </div>
 </section>
-<button class="btn btn-primary" type="button" routerLink="/admin" style="margin-left: 20px">Quay lại</button>
+<button
+  class="btn btn-primary"
+  type="button"
+  routerLink="/admin"
+  style="margin-left: 20px;"
+>
+  Quay lại
+</button>
