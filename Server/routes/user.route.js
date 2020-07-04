@@ -38,6 +38,7 @@ router.post('/login', async (req, res) => {
 
   res.json({
     // authenticated: true,
+    email:ret.Email,
     accessToken,
     refreshToken
   })

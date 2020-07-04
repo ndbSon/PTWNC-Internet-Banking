@@ -22,10 +22,10 @@ app.use((req, res, next) => {
   res.status(404).json({err:false});
 })
 app.use(function (err, req, res, next) {
-  console.log(err.stack);
+  console.log(err);
   // console.log(err.status);
   const statusCode = err.status || 500;
-  res.status(statusCode).json({err:err.stack});
+  res.status(statusCode).json({err:err.message});
 })
 
 const PORT = 3000;

@@ -131,13 +131,16 @@ router.post('/tranfers', async (req, res) => {
 router.post('/addebit', async (req, res) => {
     // body={
     //     Iddebit, số tài khoản nợ
+    //     Namedebit
     //     Amount, số tiền
     //     Content,
     // }
     let paymet = await customnerModel.detailpayment({ Iduser: req.tokenPayload.userId });
+    let Nameaccount = await customnerModel.nameaccountremind(paymet[0].Id);
     let entity = {
         ...req.body,
         Idacount :paymet[0].Id,
+        Nameaccount:Nameaccount[0].Fullname,
         Done:0
     };
     await customnerModel.addebit(entity);
