@@ -33,7 +33,9 @@ export class AuthService {
           // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
           if (res.accessToken) {
             let decoded = jwt_decode(res.accessToken);
+            console.log(decoded);
             let currentUser: User = {
+              Email: 'abc',
               Name: Name,
               iat: decoded.iat,
               exp: decoded.exp,
