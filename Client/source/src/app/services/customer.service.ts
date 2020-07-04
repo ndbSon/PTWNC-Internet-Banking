@@ -32,7 +32,7 @@ export class CustomerService {
         return this.http.post<any>(`${this.url}/changePassword`, body);
     }
     getDebit() {
-        return this.http.get<any>(`${this.url}/account`);
+        return this.http.get<any>(`${this.url}/debit`);
     }
     getTransaction() {
         return this.http.get<any>(`${this.url}/account`);

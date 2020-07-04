@@ -1,1 +1,93 @@
-<p>debit works!</p>
+<div class="content-header">
+    <h3>
+        Danh sách nợ
+    </h3>
+</div>
+<button routerLink="/customer/crate-debit" style="margin-left: 10px; margin-right: 10px;margin-bottom: 10px;">Tạo nhắc nợ</button>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách đòi nợ</h3>
+                    </div>
+                    <ngx-datatable class="material" [rows]="debitRows" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+                        <ngx-datatable-column name="Tên người nợ">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Id}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Số tiền (VND)">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Amount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Trạng thái">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Done }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Hành động">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <button md-icon-button style="margin-right: 5px;">
+                                    <i class="fa fa-credit-card"></i>
+                                </button>
+                                <button md-icon-button style="margin-right: 5px;">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách chủ nợ</h3>
+                    </div>
+                    <ngx-datatable class="material" [rows]="otherRows" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+                        <ngx-datatable-column name="Tên chủ nợ">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Id }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Số tiền (VND)">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Amount }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Trạng thái">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.Done }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Hành động">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                              
+                                <button md-icon-button style="margin-right: 5px;">
+                                    <i class="fa fa-credit-card"></i>
+                                </button>
+                                <button md-icon-button style="margin-right: 5px;">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

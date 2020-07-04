@@ -31,6 +31,7 @@ import { TransactionHistoryComponent } from "./employee/transaction-history/tran
 import { CustomerComponent } from "./customer/customer.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { CreateDebitComponent } from './customer/debit/create-debit/create-debit.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     HistoryComponent,
     TransactionHistoryComponent,
     CustomerComponent,
+    CreateDebitComponent,
   ],
   imports: [
     BrowserModule,
