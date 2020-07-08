@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MustMatch } from "src/app/helpers/functions";
+import { ToastrService } from "ngx-toastr";
+import { CustomerService } from "src/app/services/customer.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-change-password",
@@ -11,7 +14,12 @@ export class ChangePasswordComponent implements OnInit {
   formSubmit: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private ms: ToastrService,
+    private service: CustomerService
+  ) {}
 
   get f() {
     return this.formSubmit.controls;
@@ -19,12 +27,13 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     this.formSubmit = this.formBuilder.group(
       {
-        oldPassword: [null, [Validators.required, Validators.minLength(6)]],
-        newPassword: [null, [Validators.required, Validators.minLength(6)]],
+        Name: [null, [Validators.required]],
+        Password: [null, [Validators.required]],
         confirmPassword: [null, Validators.required],
+        token: [null, Validators.required],
       },
       {
-        validator: MustMatch("newPassword", "confirmPassword"),
+        validator: MustMatch("Password", "confirmPassword"),
       }
     );
   }
@@ -32,13 +41,13 @@ export class ChangePasswordComponent implements OnInit {
   // convenience getter for easy access to form fields
 
   onSubmit() {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (this.formSubmit.invalid) {
-      return;
-    }
-
-    alert("SUCCESS!! :-)\n\n" + JSON.stringify(this.formSubmit.value));
+    let body = this.formSubmit.value;
+    delete body.confirmPassword;
+    this.service.postChangePw(body).subscribe((res) => {
+      if (res) {
+        this.ms.success("Thay đổi mật khẩu thành công!");
+        this.router.navigate(["/"]);
+      }
+    });
   }
 }

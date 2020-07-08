@@ -1,38 +1,40 @@
 import { Injectable } from "@angular/core";
-import {
-  HttpHeaders,
-  HttpClient
-} from "@angular/common/http";
-import { Observable} from "rxjs";
+import { HttpHeaders, HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { AuthService } from "../helpers/auth.service";
+import { environment } from "src/environments/environment";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class GeneralService {
-  constructor(protected http: HttpClient) {}
-  get requestHeaders(): HttpHeaders {
-    const headers = new HttpHeaders({
-    //   Authorization: "Bearer " + localStorage.getItem("access_token"),
-    //   "Content-Type": "application/json"
+  constructor(protected http: HttpClient, private service: AuthService) {}
+
+  private readonly url: string = environment.apiUrlBankRsa + "/user";
+  sendRefreshToken() {
+    let header = new HttpHeaders().set("x-access-token", "");
+    let body = {
+      accessToken: this.service.currentUserValue.accessToken,
+      refreshToken: this.service.currentUserValue.refreshToken,
+    };
+    return this.http.post<any>(`${this.url}/refreshToken`, body, {
+      headers: header,
     });
-    return headers;
   }
 
-  protected get(url: string, options?: any): Observable<any> {
-    return this.http
-      .get(url, {
-        headers: this.requestHeaders,
-        ...options
-      })
-      .pipe();
+  postOTP(body) {
+    let header = new HttpHeaders().set("x-access-token", "");
+
+    return this.http.post<any>(`${this.url}/sendotp`, body, {
+      headers: header,
+    });
   }
 
-  protected post(url: string, body?: any, options?: any): Observable<any> {
-    return this.http
-      .post(url, body, {
-        headers: this.requestHeaders,
-        ...options
-      })
-      .pipe();
+  forgetPassword(body) {
+    let header = new HttpHeaders().set("x-access-token", "");
+
+    return this.http.post<any>(`${this.url}/forgetPassword`, body, {
+      headers: header,
+    });
   }
 }

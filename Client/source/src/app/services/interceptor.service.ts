@@ -11,11 +11,15 @@ import { Observable, throwError } from "rxjs";
 import { map, catchError, finalize } from "rxjs/operators";
 import { SpinnerService } from "./spinner.service";
 import { AuthService } from "../helpers/auth.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(
     public spinner: SpinnerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private ms: ToastrService,
+    private router: Router
   ) {}
   intercept(
     req: HttpRequest<any>,
@@ -29,15 +33,17 @@ export class AuthInterceptorService implements HttpInterceptor {
         return event;
       }),
       catchError((err: HttpErrorResponse) => {
+        if ((err.error.err === "jwt expired")) {
+          this.authService.logout();
+          this.router.navigate(["/login"]);
+        }
         let data = {
           code: err.status,
           message:
-            err.error ||
+            err.error.err ||
             "Có lỗi xảy ra, vui lòng báo cáo cho bộ phận kĩ thuật!",
         };
-        this.authService.logout();
-        location.reload(true);
-        // this.message.error(data.message);
+        this.ms.error(data.message);
         return throwError(err);
       }),
       finalize(() => {

@@ -14,18 +14,18 @@ export class AppComponent implements OnInit {
     this.authService.currentUser.subscribe(
       (x) => (this.isLoggedIn = x != null)
     );
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
+    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //   return false;
+    // };
 
-    this.router.events.subscribe((evt) => {
-      if (evt instanceof NavigationEnd) {
-        // trick the Router into believing it's last link wasn't previously loaded
-        this.router.navigated = false;
-        // if you need to scroll back to top, here is the right place
-        window.scrollTo(0, 0);
-      }
-    });
+    // this.router.events.subscribe((evt) => {
+    //   if (evt instanceof NavigationEnd) {
+    //     // trick the Router into believing it's last link wasn't previously loaded
+    //     this.router.navigated = false;
+    //     // if you need to scroll back to top, here is the right place
+    //     window.scrollTo(0, 0);
+    //   }
+    // });
   }
   ngOnInit() {}
 }

@@ -16,11 +16,11 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <p>{{ currentUser.Name || "Null"}}</p>
+          <p>{{ currentUser.Name}}</p>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
-          <a routerLink="/customer/change-password" class="dropdown-item">
+          <a routerLink="/customer/change-password" class="dropdown-item" *ngIf="isCustomer">
             Đổi mật khẩu
           </a>
           <div class="dropdown-divider"></div>

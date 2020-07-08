@@ -10,15 +10,22 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 export class ListAccountComponent implements OnInit {
   @ViewChild(DatatableComponent, { static: true })
   myFilterTable: DatatableComponent;
-  payRows: [];
+  payRows: any[];
   // payCols = [{ prop: "name" }, { name: "Gender" }, { name: "Company" }];
-  savingRows: [];
+  savingRows: any[];
   // savingCols: [];
   constructor(private service: CustomerService) {}
 
   ngOnInit() {
     this.service.getListAccount().subscribe((res) => {
       this.payRows = res.paymet;
+      this.payRows.map((e) => {
+        this.service.postCheckName(12521).subscribe(
+          (res) => {
+            console.log(res);
+          }
+        );
+      });
       this.savingRows = res.saving;
     });
   }

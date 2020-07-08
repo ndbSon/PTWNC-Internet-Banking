@@ -5,7 +5,7 @@ import { environment } from "src/environments/environment";
 export class AdminService {
   constructor(private http: HttpClient) {}
 
-  url: string = environment.apiUrlBankRsa + "/admin";
+  private readonly url: string = environment.apiUrlBankRsa + "/admin";
 
   postSignup(body) {
     return this.http.post<any>(`${this.url}/signup`, body);

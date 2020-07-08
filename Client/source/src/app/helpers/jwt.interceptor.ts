@@ -18,14 +18,13 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // add auth header with jwt if user is logged in and request is to api url
-    if (this.service) {
+    // if (this.service) {
       const currentUser = this.service.currentUserValue;
       const isLoggedIn = currentUser && currentUser.accessToken;
       const isApiUrl = request.url.startsWith(environment.apiUrlBankRsa);
       if (isLoggedIn && isApiUrl) {
         request = request.clone({
           setHeaders: {
-            'Content-Type': 'application/json',
             "x-access-token": `${currentUser.accessToken}`,
           },
         });
@@ -34,9 +33,9 @@ export class JwtInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
 
-    return next.handle(request);
+    // return next.handle(request);
   }
-}
+// }
 // export class JwtInterceptor implements HttpInterceptor {
 //     constructor(private authenticationService: AuthenticationService) { }
 

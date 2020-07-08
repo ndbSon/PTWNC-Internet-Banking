@@ -20,6 +20,7 @@ import { TransactionHistoryComponent } from "./employee/transaction-history/tran
 import { TopupComponent } from "./employee/topup/topup.component";
 import { RemoveDebitComponent } from "./customer/debit/remove-debit/remove-debit.component";
 import { CreateDebitComponent } from "./customer/debit/create-debit/create-debit.component";
+import { ForgetPasswordComponent } from './general/forget-password/forget-password.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path: "forget-password",
+    component: ForgetPasswordComponent,
+  },
+  {
     path: "customer",
     component: CustomerComponent,
     canActivate: [AuthGuard],
@@ -39,18 +44,22 @@ const routes: Routes = [
   {
     path: "customer/list-account",
     component: ListAccountComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "customer/change-password",
     component: ChangePasswordComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "customer/history",
     component: HistoryComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "customer/list-recipients",
     component: ListRecipientsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "customer/debit",

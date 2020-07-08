@@ -1,24 +1,3 @@
-<mat-form-field>
-    <input
-        matInput
-        ngxDaterangepickerMd
-        showCancel="true"
-        placeholder="Choose date"
-        [(ngModel)]="selected"
-        [showDropdowns]="true"
-        [lockStartDate]="false"
-        [customRangeDirection]="false"
-        (ngModelChange)="ngModelChange($event)"
-        (change)="change($event)"
-    />
-</mat-form-field>
-<div>
-    <button mat-raised-button color="primary" (click)="open()">Open from a button</button>
-    <button *ngIf="selected && selected.startDate" mat-raised-button (click)="clear($event)">
-        Clear
-    </button>
-</div>
-
 <div class="content-header">
     <h3>
       Lịch sử giao dịch

@@ -1,71 +1,101 @@
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Chuyển tiền</h1>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Chuyển tiền</h1>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <!-- jquery validation -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- jquery validation -->
 
-                <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
-                    <div class="card-body">
-                        <div class="form-group">
-                        <label>Ngân hàng</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="radio1">
-                            <label class="form-check-label">Chuyển khoản nội bộ</label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="radio" name="radio1">
-                            <label class="form-check-label">Chuyển khoản liên ngân hàng</label>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Số tài khoản</label>
-                            <input type="text" class="form-control" formControlName="Id" />
-
-                        </div>
-
-                        <div class="form-group">
-                            <label>Tên chủ tài khoản</label>
-                            <input type="text" class="form-control" disabled/>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Số tiền (VND)</label>
-                            <input type="text" class="form-control" formControlName="Amount" />
-                        </div>
-                        <div class="form-group">
-                            <label>Mô tả (Không bắt buộc)</label>
-                            <input type="text" class="form-control" formControlName="Content"/>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Hình thức thanh toán phí</label>
-                            <select class="form-control" formControlName="charge">
-                                <option>Người nhận trả phí</option>
-                                <option>Người gửi trả phí</option>
-
-                            </select>
-
-                        </div>
-                    </div>
-                </form>
+        <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Ngân hàng</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" value="in" formControlName="type" />
+                <label class="form-check-label">Chuyển khoản nội bộ</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio"  value="out" formControlName="type" />
+                <label class="form-check-label"
+                  >Chuyển khoản liên ngân hàng</label
+                >
+              </div>
             </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary" [disabled]="formSubmit.invalid">
-                    Submit
-                </button>
+            <div class="form-group">
+              <label>Số tài khoản</label>
+              <input type="text" class="form-control" formControlName="Id" (blur)="onBlurTest($event)"/>
             </div>
-        </div>
+
+            <div class="form-group">
+              <label>Tên chủ tài khoản</label>
+              <input type="text" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+              <label>Số tiền (VND)</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Amount"
+              />
+            </div>
+            <div class="form-group">
+              <label>Mô tả (Không bắt buộc)</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Content"
+              />
+            </div>
+            <div class="form-group">
+              <label>Hình thức thanh toán phí</label>
+              <select class="form-control" formControlName="charge">
+                <option value="1">Người nhận trả phí</option>
+                <option value="0">Người gửi trả phí</option>
+              </select>
+            </div>
+            <div class="form-group" style="width: 500px;">
+              <label>OTP</label>
+              <div class="row">
+                <div class="col-md-8">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="token"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <button
+                    type="button"
+                    (click)="sendOTP()"
+                    class="btn btn-block bg-gradient-info btn-"
+                  >
+                    Gửi OTP
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="formSubmit.invalid"
+        >
+          Submit
+        </button>
+      </div>
     </div>
+  </div>
 </section>

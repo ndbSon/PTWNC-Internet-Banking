@@ -37,6 +37,8 @@ import { EmployeeComponent } from './employee/employee.component';
 import { TopupComponent } from './employee/topup/topup.component';
 import { CreateDebitComponent } from './customer/debit/create-debit/create-debit.component';
 import { RemoveDebitComponent } from './customer/debit/remove-debit/remove-debit.component';
+import { ForgetPasswordComponent } from './general/forget-password/forget-password.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,8 +65,10 @@ import { RemoveDebitComponent } from './customer/debit/remove-debit/remove-debit
     TopupComponent,
     CreateDebitComponent,
     RemoveDebitComponent,
+    ForgetPasswordComponent,
   ],
   imports: [
+    RouterModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -77,7 +81,7 @@ import { RemoveDebitComponent } from './customer/debit/remove-debit/remove-debit
     MatFormFieldModule,
     MatInputModule,
     ToastrModule.forRoot({
-      timeOut: 10000,
+      timeOut: 5000,
       positionClass: "toast-top-right",
       preventDuplicates: true,
     }),
