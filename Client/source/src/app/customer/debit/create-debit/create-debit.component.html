@@ -1,1 +1,55 @@
-<p>create-debit works!</p>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Tạo nhắc nợ</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- jquery validation -->
+
+                <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
+                    <div class="card-body">
+                        
+                        <div class="form-group">
+                            <label>Số tài khoản</label>
+                            <input type="text" class="form-control" formControlName="Iddebit" />
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tên chủ tài khoản</label>
+                            <input type="text" class="form-control" disabled  formControlName="Name"/>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Số tiền (VND)</label>
+                            <input type="text" class="form-control" formControlName="Amount" />
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả (Không bắt buộc)</label>
+                            <input type="text" class="form-control" formControlName="Content" />
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="button" class="btn btn-default" [disabled]="formSubmit.invalid">
+                    Quay lại
+                </button>
+                <button type="submit" class="btn btn-primary" [disabled]="formSubmit.invalid">
+                    Gửi nhắc nợ
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
