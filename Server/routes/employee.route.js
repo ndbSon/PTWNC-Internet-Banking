@@ -33,9 +33,9 @@ router.get('/transaction', async (req, res) => {
     // body={Id số tài khoản}
     const Id = req.query.Id;
     let debit = await customnerModel.detaildone(Id);
-    let frAcount = await customnerModel.detailtransaction({ Fromacount: Id });
-    let toAcount = await customnerModel.detailtransaction({ Toacount: Id });
-    res.json({ debit, frAcount, toAcount })
+    let frAccount = await customnerModel.detailtransaction({ Fromaccount: Id });
+    let toAccount = await customnerModel.detailtransaction({ Toaccount: Id });
+    res.json({ debit, frAccount, toAccount })
 })
 
 router.post('/Money', async (req, res) => {

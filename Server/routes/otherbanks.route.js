@@ -71,9 +71,9 @@ router.post("/transfers", async (req, res) => {
         let tmoney = parseInt(paymet[0].Amount) + data.body.Amount;
         let entity = {
           Amount: data.body.Amount,
-          Fromacount: data.body.Fromacount,
+          Fromaccount: data.body.Fromaccount,
           Content: data.body.Content,
-          Toacount: data.body.Id,
+          Toaccount: data.body.Id,
           Date: moment().format('YYYY-MM-DD HH:mm:ss'),
           Sign: data.sigpgp,
           Bank: data.nameBank,

@@ -11,7 +11,7 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
-app.use('/user', require('./routes/user.route'));
+app.use('/user',require('./routes/user.route'));
 app.use('/customer',verify.customer, require('./routes/customer.route'));
 app.use('/employee',verify.employee, require('./routes/employee.route'));
 app.use('/mybanks',verify.customer, require('./routes/mybanks.route'));
@@ -23,7 +23,8 @@ app.use((req, res, next) => {
 })
 app.use(function (err, req, res, next) {
   console.log(err);
-  // console.log(err.status);
+  console.log("abcs");
+
   const statusCode = err.status || 500;
   res.status(statusCode).json({err:err.message});
 })

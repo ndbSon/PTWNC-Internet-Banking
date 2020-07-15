@@ -44,20 +44,22 @@ router.post('/login', async (req, res) => {
   })
 })
 
-router.post('/refreshToken', async (req, res) => {
-  // req.body = {
-    // accessToken,
-    // refreshToken
-  // }
-  // const { userId } = jwt_decode(req.body.accessToken);
-  jwt.verify(req.body.accessToken, config.auth.secret, { ignoreExpiration: true }, async function (err, payload) {
+router.post('/refreshToken', async (req, res,next) => {
+  // const token = req.body.accessToken;
+  const token = req.headers['x-access-token'];
+  jwt.verify(token, config.auth.secret, { ignoreExpiration: true }, async function (err, payload) {
+    // console.log("payload: ",payload)
     const { userId } = payload;
+    // const userId=41
     const ret = await authModel.verifyRefreshToken(userId, req.body.refreshToken);
     if (ret === false) {
-      throw createError(400, 'Invalid refresh token.');
+      return next(createError(401, 'Invalid refresh token.'));
     }
-
-    const accessToken = generateAccessToken(userId);
+    const info = {
+      userId:userId,
+      Permission: ret.Permission
+    };
+    const accessToken = generateAccessToken(info);
     res.json({ accessToken });
   })
 });
@@ -89,7 +91,8 @@ router.post('/sendotp', async (req, res) => {
   console.log(token);
   let verify = await authModel.verifySendOTP(req.body);
   if(verify==false){
-    return res.json({succes:false});
+    // return res.json({err:"gmail or Name dont Invalid"});
+    throw createError(401, "gmail or Name dont Invalid");
   }
   var transporter =  nodemailer.createTransport({ // config mail server
     host: 'smtp.gmail.com',
@@ -116,7 +119,7 @@ router.post('/sendotp', async (req, res) => {
     `;
   var mailOptions = {
     from: `testotpwnc@gmail.com`,
-    to: `${req.body.gmail}`,
+    to: `${req.body.email}`,
     subject: 'Gửi Mã OTP',
     html: content
   };
@@ -124,7 +127,8 @@ router.post('/sendotp', async (req, res) => {
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
-      return res.json({succes:false})
+      // return res.json({err:error.message})
+      throw createError(401, error.message);
     } else {
       console.log('Email sent: ' + info.response);
       return res.json({succes:true})

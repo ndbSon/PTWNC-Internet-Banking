@@ -43,20 +43,23 @@ module.exports = {
   },
 
   verifyRefreshToken: async (userId, token) => {
+    // console.log("userId: ",userId," token: ",token)
     const sql = `select * from users where Id = ${userId} and RefreshToken = '${token}'`;
     const rows = await db.load(sql);
-    if (rows.length > 0)
-      return true;
-
+    // console.log("rows: ",rows)
+    if (rows.length > 0){
+      return rows[0];
+    }
     return false;
   },
 
   verifySendOTP : async entity =>{
     const Name = await userModel.detail({Name:entity.Name});
+    console.log("N: ",Name[0].Email)
     if(Name.length==0){
       return false;
     }else{
-      if(Name[0].email==entity.email){
+      if(Name[0].Email==entity.email){
         return true;
       }
     }

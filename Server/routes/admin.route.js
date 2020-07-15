@@ -52,7 +52,7 @@ router.get('/transbank', async (req, res) => {
     res.json({trans})
 })
 
-router.post('/lockacount', async (req, res) => {
+router.post('/lockaccount', async (req, res) => {
     let {Id} =req.body;
     let Iduser = await customnerModel.detailpayment({Id});
     let result = await userModel.update({Permission:0},{Id:Iduser[0].Iduser});
