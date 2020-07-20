@@ -1,6 +1,6 @@
-<ng-container *ngIf="isLoggedIn">
+<ng-container *ngIf="isLoggedIn  && !isForget">
   <app-header></app-header>
-  <app-sidebar ></app-sidebar>
+  <app-sidebar></app-sidebar>
   <div class="content-wrapper">
     <app-spinner></app-spinner>
     <router-outlet></router-outlet>
@@ -8,4 +8,5 @@
   <app-footer></app-footer>
 </ng-container>
 
-<app-login *ngIf="!isLoggedIn"></app-login>
+<app-login *ngIf="!isLoggedIn && !isForget"></app-login>
+<app-forget-password *ngIf="isForget"></app-forget-password>
