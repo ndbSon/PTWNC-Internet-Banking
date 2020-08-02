@@ -31,7 +31,8 @@ export class AdminService {
   getListAccount() {
     return this.http.get<any>(`${this.url}/account`);
   }
-  getAccount(body) {
-    return this.http.get<any>(`${this.url}/detail`, body);
+  getAccount(id) {
+    const params = new HttpParams().set("Id", id);
+    return this.http.get<any>(`${this.url}/detail`, {params});
   }
 }

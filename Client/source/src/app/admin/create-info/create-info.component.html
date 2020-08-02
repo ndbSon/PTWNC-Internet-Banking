@@ -15,7 +15,6 @@
       <div class="col-md-12">
         <!-- jquery validation -->
         <div class="card card-primary">
-        
           <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
             <div class="card-body">
               <div class="form-group">
@@ -34,13 +33,14 @@
                   class="form-control"
                   placeholder="Nhập Email"
                   formControlName="Email"
+                  autocomplete="off"
                 />
-                <div *ngIf="f.Email.errors" class="error invalid-feedback">
+                <div *ngIf="f.Email.errors && submitted" class="text-red">
                   <div *ngIf="f.Email.errors.required">
-                    Required!
+                    Vui lòng không để trống trường này!
                   </div>
                   <div *ngIf="f.Email.errors.email">
-                    Email type!
+                    Sai định dạng email, vui lòng nhập lại!
                   </div>
                 </div>
               </div>
@@ -51,6 +51,7 @@
                   class="form-control"
                   placeholder="Nhập SĐT"
                   formControlName="Phone"
+                  autocomplete="off"
                 />
               </div>
               <div class="form-group">
@@ -58,15 +59,16 @@
                 <input
                   type="password"
                   class="form-control"
-                  placeholder="new pw"
+                  placeholder="Nhập mật khẩu"
                   formControlName="Password"
+                  autocomplete="new-password"
                 />
-                <div *ngIf="f.Password.errors" class="error invalid-feedback">
+                <div *ngIf="f.Password.errors && submitted" class="text-red">
                   <div *ngIf="f.Password.errors.required">
-                    Password is required
+                    Vui lòng không để trống trường này!
                   </div>
                   <div *ngIf="f.Password.errors.minlength">
-                    Password must be at least 6 characters
+                    Mật khẩu ít nhất 6 kí tự
                   </div>
                 </div>
               </div>
@@ -75,36 +77,39 @@
                 <input
                   type="password"
                   class="form-control"
-                  placeholder="confirm"
+                  placeholder="Xác nhận mật khẩu"
                   formControlName="confirmPassword"
+                  autocomplete="new-password"
                 />
-                <div
-                  *ngIf="f.confirmPassword.errors"
-                  class="error invalid-feedback"
-                >
+                <div *ngIf="f.confirmPassword.errors && submitted" class="text-red">
                   <div *ngIf="f.confirmPassword.errors.required">
-                    Confirm Password is required
+                    Vui lòng không để trống trường này!
                   </div>
                   <div *ngIf="f.confirmPassword.errors.mustMatch">
-                    Passwords must match
+                    Mật khẩu không trùng khớp
                   </div>
                 </div>
               </div>
             </div>
             <!-- /.card-body -->
-            
+
             <div class="card-footer">
               <div class="row">
-              <button class="btn btn-default float-right" type="button" routerLink="/admin"
-                  style="margin-left: 10px; margin-right: 20px;">Quay lại</button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="formSubmit.invalid"
-              >
-                Submit
-              </button>
-            </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                >
+                  Lưu
+                </button>
+                <button
+                  class="btn btn-default float-right"
+                  type="button"
+                  routerLink="/admin"
+                  style="margin-left: 10px; margin-right: 20px;"
+                >
+                  Quay lại
+                </button>
+              </div>
             </div>
           </form>
         </div>

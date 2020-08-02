@@ -11,18 +11,26 @@ import { Router } from "@angular/router";
 export class HeaderComponent implements OnInit {
   user = new User();
   loading = false;
-  currentUser: User;
   isCustomer = false;
-  // userFromApi: User;
+  isLoggedIn = false;
   constructor(private authService: AuthService, private router: Router) {
-    this.currentUser = this.authService.currentUserValue;
-    console.log(this.authService.currentUserValue.permission);
+    this.user = this.authService.currentUserValue;
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.isCustomer = (this.authService.currentUserValue.permission == 1) ? true : false;
-    console.log(this.isCustomer);
+    this.authService.currentUser.subscribe(e => {
+      if (e) {
+        this.isLoggedIn = true;
+        this.user = e;
+        if (e.permission === 1) {
+          this.isCustomer = true;
+        } else {
+          this.isCustomer = false;
+        }
+      } else {
+        this.isLoggedIn = false;
+      }
+    })
   }
   logout() {
     this.authService.logout();

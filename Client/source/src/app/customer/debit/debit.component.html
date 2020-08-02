@@ -1,1 +1,344 @@
-<p>debit works!</p>
+<div class="content-header">
+  <h3>
+    Các con nợ
+  </h3>
+</div>
+<div class="row justify-content-end" style="margin-bottom: 1rem;">
+  <div class="col-md-3 d-flex justify-content-end">
+    <button
+      class="btn btn-primary m-l-20"
+      data-toggle="modal"
+      data-target="#modalAddDebit"
+      (click)="resetModalAddDebit()"
+    >
+      Tạo nhắc nợ
+    </button>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Con nợ</h3>
+          </div>
+          <ngx-datatable
+            class="dark"
+            [rows]="mind"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Amount', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="Số tiền">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Amount }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Tên con nợ">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Nameaccount }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Số tài khoản">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Iddebit }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Nội dung">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Content }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column name="Lý do">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Reason }}
+              </ng-template>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column name="Trạng thái">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngIf="row.Done === 0" class="text-red">
+                  Chưa thanh toán
+                </div>
+                <div *ngIf="row.Done != 0" class="text-green">
+                  Đã thanh toán
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Hành động">
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                <button
+                  class="btn btn-primary"
+                  (click)="payDebit(row)"
+                  style="margin-right: 5px;"
+                >
+                  <i class="fas fa-receipt"></i>
+                </button>
+
+                <button
+                  class="btn btn-danger"
+                  (click)="removeDebit(row)"
+                  style="margin-right: 5px;"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div
+  #modalAddDebit
+  class="modal fade"
+  id="modalAddDebit"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalAddDebit"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAddDebit">Thêm người nợ</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Tài khoản</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Id tài khoản"
+              formControlName="Iddebit"
+              [ngClass]="{
+                'is-invalid': f.Iddebit.errors && submitted,
+                'is-valid': !f.Iddebit.errors && submitted
+              }"
+            />
+            <div *ngIf="f.Iddebit.errors && submitted" class="text-red">
+              <div *ngIf="f.Iddebit.errors.required">
+                Vui lòng không bỏ trống field này!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Số tiền nợ</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="VND"
+              formControlName="Amount"
+              [ngClass]="{
+                'is-invalid': f.Amount.errors && submitted,
+                'is-valid': !f.Amount.errors && submitted
+              }"
+            />
+            <div *ngIf="f.Amount.errors && submitted" class="text-red">
+              <div *ngIf="f.Amount.errors.required">
+                Vui lòng không bỏ trống field này!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tên con nợ</label>
+
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder=""
+                formControlName="Namedebit"
+              />
+              <div class="input-group-append">
+                <span style="cursor: pointer;" class="input-group-text">
+                  <i class="fas fa-sync"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nội dung</label>
+            <input type="text" class="form-control" formControlName="Content" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Đóng
+        </button>
+        <button
+          type="button"
+          (click)="onSubmitModalAddDebit()"
+          class="btn btn-primary"
+        >
+          Lưu
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ================ MODAL PAY ================ -->
+<!-- <div
+  #modalAddDebit
+  class="modal fade"
+  id="modalPayDebit"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalPayDebit"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalPayDebit">Thanh toán nợ</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="OTP"
+              
+            />
+            <div class="input-group-append">
+              <span style="cursor: pointer;" class="input-group-text">
+                <i class="fas fa-sync"></i>
+              </span>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Đóng
+        </button>
+        <button
+          type="button"
+          (click)="onSubmitModalAddDebit()"
+          class="btn btn-primary"
+        >
+          Lưu
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- ================ MODAL PAY ================ -->
+
+<!-- =============== CHỦ NỢ =============== -->
+<div class="content-header">
+  <h3>
+    Các chủ nợ
+  </h3>
+</div>
+<div class="row justify-content-end" style="margin-bottom: 1rem;">
+  <div class="col-md-3 d-flex justify-content-end">
+    <button
+      routerLink="/admin/view-transaction"
+      class="btn btn-info"
+      style="margin-right: 1rem;"
+    >
+      Xem giao dịch
+    </button>
+    <button routerLink="/admin/create" class="btn btn-primary m-l-20">
+      Tạo mới tài khoản
+    </button>
+  </div>
+</div>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Chủ nợ</h3>
+          </div>
+          <ngx-datatable
+            class="dark"
+            [rows]="others"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Amount', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="Số tiền">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Amount }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Tên chủ nợ">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Nameaccount }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Số tài khoản">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Iddebit }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Nội dung">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Content }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column name="Lý do">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Reason }}
+              </ng-template>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column name="Trạng thái">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngIf="row.Done === 0" class="text-red">
+                  Chưa thanh toán
+                </div>
+                <div *ngIf="row.Done != 0" class="text-green">
+                  Đã thanh toán
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

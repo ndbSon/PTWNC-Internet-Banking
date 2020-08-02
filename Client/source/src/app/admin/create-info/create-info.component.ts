@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CreateInfoComponent implements OnInit {
   formSubmit: FormGroup;
+  submitted = false;
   constructor(
     private formBuilder: FormBuilder,
     private service: AdminService,
@@ -25,21 +26,26 @@ export class CreateInfoComponent implements OnInit {
     this.formSubmit = this.formBuilder.group(
       {
         Name: null,
-        Email: [null, Validators.email, Validators.required],
+        Email: [null, [Validators.email, Validators.required]],
         Password: [null, [Validators.required, Validators.minLength(6)]],
         Phone: null,
         confirmPassword: [null, Validators.required],
       },
       {
-        validator: MustMatch("newPassword", "confirmPassword"),
+        validator: MustMatch("Password", "confirmPassword"),
       }
     );
   }
   onSubmit() {
+    this.submitted = true;
+    if (this.formSubmit.invalid) {
+      return;
+    }
     var body = this.formSubmit.value;
     delete body.confirmPassword;
     this.service.postSignup(body).subscribe((res) => {
       if (res) {
+        console.log(res);
         this.ms.success('Tạo mới thành công!');
         this.router.navigate(['/admin']);
       } else {

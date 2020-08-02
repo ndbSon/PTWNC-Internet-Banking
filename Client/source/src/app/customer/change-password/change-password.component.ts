@@ -27,13 +27,12 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     this.formSubmit = this.formBuilder.group(
       {
-        Name: [null, [Validators.required]],
-        Password: [null, [Validators.required]],
-        confirmPassword: [null, Validators.required],
-        token: [null, Validators.required],
+        oldPassword: [null, [Validators.required]],
+        newPassword: [null, [Validators.required]],
+        confirmPassword: [null, Validators.required]
       },
       {
-        validator: MustMatch("Password", "confirmPassword"),
+        validator: MustMatch("newPassword", "confirmPassword"),
       }
     );
   }
@@ -41,6 +40,10 @@ export class ChangePasswordComponent implements OnInit {
   // convenience getter for easy access to form fields
 
   onSubmit() {
+    this.submitted = true;
+    if (this.formSubmit.invalid) {
+      return;
+    }
     let body = this.formSubmit.value;
     delete body.confirmPassword;
     this.service.postChangePw(body).subscribe((res) => {

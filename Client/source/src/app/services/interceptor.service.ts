@@ -40,7 +40,7 @@ export class AuthInterceptorService implements HttpInterceptor {
         let data = {
           code: err.status,
           message:
-            err.error.err ||
+            err.error.err || err.error.text ||
             "Có lỗi xảy ra, vui lòng báo cáo cho bộ phận kĩ thuật!",
         };
         this.ms.error(data.message);

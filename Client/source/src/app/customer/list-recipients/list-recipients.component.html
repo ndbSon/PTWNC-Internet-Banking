@@ -9,9 +9,15 @@
       <!-- left column -->
       <div class="col-md-12">
         <div class="card card-primary">
-
-          <ngx-datatable class="material" [rows]="payRows" [columnMode]="'force'" [headerHeight]="50"
-            [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
+          <ngx-datatable
+            class="material"
+            [rows]="payRows"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Id', dir: 'asc' }]"
+          >
             <ngx-datatable-column name="Số tài khoản">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Id }}
@@ -36,4 +42,90 @@
     </div>
   </div>
 </section>
-
+<button
+  type="button"
+  class="btn btn-primary"
+  data-toggle="modal"
+  data-target="#formModal"
+  (click)="resetForm()"
+>
+  Thêm người nhận
+</button>
+<button
+class="btn btn-default float-right"
+type="button"
+routerLink="/customer"
+style="margin-left: 10px; margin-right: 20px;"
+>
+Quay lại
+</button>
+<!-- Modal -->
+<div
+  #formModal
+  class="modal fade"
+  id="formModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="formModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="formModal">Thêm người nhận</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
+          <!-- <div class="card-body"> -->
+          <div class="form-group">
+            <label>Tài khoản</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Id tài khoản"
+              formControlName="Idacount"
+              [ngClass]="{
+                'is-invalid': f.Idacount.errors && submitted,
+                'is-valid': !f.Idacount.errors && submitted
+              }"
+            />
+            <div
+              *ngIf="f.Idacount.errors && submitted"
+              class="text-red"
+            >
+              <div *ngIf="f.Idacount.errors.required">
+                Vui lòng không bỏ trống field này!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tên gợi nhớ</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nhập tên gợi nhớ"
+              formControlName="Name"
+              
+            />
+          </div>
+          <!-- </div> -->
+          <!-- /.card-body -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Đóng
+        </button>
+        <button type="button" (click)="onSubmit()" class="btn btn-primary">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>

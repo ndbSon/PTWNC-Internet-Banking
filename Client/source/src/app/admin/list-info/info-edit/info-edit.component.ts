@@ -11,43 +11,51 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 })
 export class InfoEditComponent implements OnInit {
   formSubmit: FormGroup;
-  id: number;
+  submitted =  false;
+  Id: string;
   constructor(
-    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private service: AdminService,
     private ms: ToastrService,
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {
-    this.id = this.route.snapshot.params["id"];
-  }
-
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   get f() {
     return this.formSubmit.controls;
   }
   ngOnInit() {
-    this.formSubmit = this.formBuilder.group({
-      Name: null,
-      Email: [null, [Validators.email, Validators.required]],
-      Phone: null
-    });
-
-    // this.service.getAccount({"Id": this.id}).subscribe((res) => {
-    //   if (res) {
-    //     this.formSubmit.patchValue({
-    //       Name: res.Name,
-    //       Email: res.Email
-    //     })
-    //   } else {
-    //   }
-    // });
+    this.Id = this.route.snapshot.params["id"];
+    this.formSubmit = this.formBuilder.group(
+      {
+        Name: null,
+        Email: [null, [Validators.email, Validators.required]],
+        Phone: null
+      }
+    );
+    this.service.getAccount(this.Id).subscribe(res => {
+      if (res.Name) {
+        this.formSubmit.patchValue({
+          Name: res.Name,
+          Email: res.Email,
+          Phone: res.Phone
+        })
+      }
+    })
   }
   onSubmit() {
+    this.submitted = true;
+    if (this.formSubmit.invalid) {
+      return;
+    }
     var body = this.formSubmit.value;
+    console.log(body);
+    delete body.confirmPassword;
+    body.Id = this.Id;
     this.service.postEdit(body).subscribe((res) => {
       if (res) {
-        this.ms.success("Chỉnh sửa thành công!");
-        this.router.navigate(["/admin"]);
+        console.log(res);
+        this.ms.success('Chỉnh sửa thành công!');
+        this.router.navigate(['/admin']);
       } else {
         this.ms.error("Chỉnh sửa thất bại!");
       }

@@ -19,13 +19,6 @@ export class ListAccountComponent implements OnInit {
   ngOnInit() {
     this.service.getListAccount().subscribe((res) => {
       this.payRows = res.paymet;
-      this.payRows.map((e) => {
-        this.service.postCheckName(12521).subscribe(
-          (res) => {
-            console.log(res);
-          }
-        );
-      });
       this.savingRows = res.saving;
     });
   }

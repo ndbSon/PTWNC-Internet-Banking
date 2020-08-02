@@ -9,24 +9,21 @@ import { Router, NavigationEnd } from "@angular/router";
 })
 export class AppComponent implements OnInit {
   title = "source";
-  isLoggedIn = false;
-  isForget = false;
   constructor(private authService: AuthService, private router: Router) {
-    this.authService.currentUser.subscribe(
-      (x) => (this.isLoggedIn = x != null)
-    );
+    
     // this.router.routeReuseStrategy.shouldReuseRoute = function () {
     //   return false;
     // };
-    this.router.events.subscribe((e: NavigationEnd) => {
-      if (e.url == "/forget-password") {
-        console.log(1);
-        this.isForget = true;
-      } else {
-        console.log(2);
-        this.isForget = false;
-      }
-    });
+    // this.router.events.subscribe((e: NavigationEnd) => {
+    //   if (typeof(e)) {
+    //     console.log(a);
+    //   }
+    //   if (e.url == "/forget-password") {
+    //     this.isForget = true;
+    //   } else {
+    //     this.isForget = false;
+    //   }
+    // });
 
     // this.router.events.subscribe((evt) => {
     //   if (evt instanceof NavigationEnd) {

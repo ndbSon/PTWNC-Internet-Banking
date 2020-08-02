@@ -6,18 +6,28 @@ import { environment } from "src/environments/environment";
 import { User } from "../models/user.model";
 import * as jwt_decode from "jwt-decode";
 import { Router } from "@angular/router";
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  private loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router,private ms: ToastrService) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private ms: ToastrService
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("currentUser"))
     );
+
     this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
   }
 
   public get currentUserValue(): User {
@@ -37,6 +47,7 @@ export class AuthService {
             this.ms.success("Đăng nhập thành công");
             console.log(res);
             let decoded = jwt_decode(res.accessToken);
+            console.log(decoded);
             let currentUser: User = {
               Email: res.email,
               Name: Name,
@@ -51,7 +62,9 @@ export class AuthService {
             this.currentUserSubject.next(currentUser);
             return currentUser;
           } else {
-            this.ms.error('Thông tin đăng nhập không đúng. Xin vui lòng thử lại!')
+            this.ms.error(
+              "Thông tin đăng nhập không đúng. Xin vui lòng thử lại!"
+            );
             return null;
           }
         })

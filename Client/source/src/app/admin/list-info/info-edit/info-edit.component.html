@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Sửa tài khoản</h1>
+        <h1>Chỉnh sửa tài khoản</h1>
       </div>
     </div>
   </div>
@@ -15,47 +15,61 @@
       <div class="col-md-12">
         <!-- jquery validation -->
         <div class="card card-primary">
-          
           <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
             <div class="card-body">
               <div class="form-group">
                 <label>Họ Tên</label>
-                <input type="text" class="form-control" placeholder="Nhập họ tên" formControlName="Name" />
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nhập họ tên"
+                  formControlName="Name"
+                />
               </div>
               <div class="form-group">
                 <label>Email</label>
-                <input type="email" class="form-control" placeholder="Nhập Email" formControlName="Email" />
-                <div *ngIf="f.Email.errors" class="error invalid-feedback">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Nhập Email"
+                  formControlName="Email"
+                  autocomplete="off"
+                />
+                <div *ngIf="f.Email.errors && submitted" class="text-red">
                   <div *ngIf="f.Email.errors.required">
-                    Required!
+                    Vui lòng không để trống trường này!
                   </div>
                   <div *ngIf="f.Email.errors.email">
-                    Email type!
+                    Sai định dạng email, vui lòng nhập lại!
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label>Số điện thoại</label>
-                <input type="text" class="form-control" placeholder="Nhập SĐT" formControlName="Phone" />
-              </div>
-
-              <div class="form-group">
-                <label>Phân quyền</label>
-                <!-- Thiếu phân quyền -->
-                <select class="custom-select">
-                  <option>Chọn phân quyền</option>
-                </select>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nhập SĐT"
+                  formControlName="Phone"
+                  autocomplete="off"
+                />
               </div>
             </div>
             <!-- /.card-body -->
+
             <div class="card-footer">
               <div class="row">
-                <button class="btn btn-default float-right" type="button" routerLink="/admin"
-                  style="margin-left: 20px">Quay lại</button>
-                <button type="submit" class="btn btn-primary" [disabled]="formSubmit.invalid" style="margin-left:10px">
-                  Submit
+                <button type="submit" class="btn btn-primary">
+                  Lưu
                 </button>
-
+                <button
+                  class="btn btn-default float-right"
+                  type="button"
+                  routerLink="/admin"
+                  style="margin-left: 10px; margin-right: 20px;"
+                >
+                  Quay lại
+                </button>
               </div>
             </div>
           </form>

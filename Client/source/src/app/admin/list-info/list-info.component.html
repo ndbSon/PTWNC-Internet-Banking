@@ -3,15 +3,22 @@
     Danh sách tài khoản
   </h3>
 </div>
-<button routerLink="/admin/view-transaction" style="margin-left: 10px; margin-right: 10px;margin-bottom: 10px;">Xem giao dịch</button>
-<button routerLink="/admin/create">Tạo mới tài khoản</button>
+<div class="row justify-content-end" style="margin-bottom: 1rem;">
+  <div class="col-md-3 d-flex justify-content-end">
+    <button routerLink="/admin/view-transaction" class="btn btn-info" style="margin-right: 1rem;">
+      Xem giao dịch
+    </button>
+    <button routerLink="/admin/create" class="btn btn-primary m-l-20">
+      Tạo mới tài khoản
+    </button>
+  </div>
+</div>
 <section class="content">
   <div class="container-fluid">
     <div class="row">
       <!-- left column -->
       <div class="col-md-12">
         <div class="card card-primary">
-          
           <ngx-datatable
             class="material"
             [rows]="accRows"
@@ -37,21 +44,32 @@
                 {{ row.Permission }}
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Hành động" >
+            <ngx-datatable-column name="Hành động">
               <ng-template
                 let-row="row"
                 let-value="value"
                 ngx-datatable-cell-template
               >
-                <button md-icon-button (click)="lock(row.Id)" style="margin-right: 5px;"> 
+                <button
+                  md-icon-button
+                  (click)="lock(row.Id)"
+                  style="margin-right: 5px;"
+                >
                   <i class="fa fa-lock"></i>
                 </button>
 
-                <button md-icon-button (click)="unlock(row.Id)" style="margin-right: 5px;">
+                <button
+                  md-icon-button
+                  (click)="unlock(row.Id)"
+                  style="margin-right: 5px;"
+                >
                   <i class="fa fa-unlock"></i>
                 </button>
 
-                <button md-icon-button [routerLink]="['/admin/info-edit', row.Id]">
+                <button
+                  md-icon-button
+                  [routerLink]="['/admin/info-edit', row.Id]"
+                >
                   <i class="fa fa-edit"></i>
                 </button>
               </ng-template>

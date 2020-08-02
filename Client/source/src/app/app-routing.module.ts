@@ -23,14 +23,15 @@ import { CreateDebitComponent } from "./customer/debit/create-debit/create-debit
 import { ForgetPasswordComponent } from './general/forget-password/forget-password.component';
 
 const routes: Routes = [
+  
+  {
+    path: "login",
+    component: LoginComponent,
+  },
   {
     path: "",
     component: HomeComponent,
     canActivate: [AuthGuard],
-  },
-  {
-    path: "login",
-    component: LoginComponent,
   },
   {
     path: "forget-password",

@@ -12,11 +12,11 @@ import { first } from "rxjs/operators";
 })
 export class LoginComponent implements OnInit {
   validateForm: FormGroup;
+  forgetForm: FormGroup
   loading = false;
   submitted = false;
   returnUrl: string;
   error = "";
-
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -33,13 +33,25 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resetFormLogin();
+
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+  }
+
+  resetFormLogin() {
     this.validateForm = this.fb.group({
       Name: [null, Validators.required],
       Password: [null, Validators.required],
     });
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
 
+  // resetFormForget(){
+  //   this.forgetForm = this.fb.group({
+  //     Name: [null, Validators.required],
+  //     email: [null, Validators.email, Validators.required],
+  //     Password: [null, Validators.required],
+  //   });
+  // }
   submitForm() {
     this.submitted = true;
     for (const i in this.validateForm.controls) {
@@ -52,7 +64,15 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.router.navigate([this.returnUrl]);
+          if (this.authService.currentUserValue) {
+            if (this.authService.currentUserValue.permission == 1) {
+              this.router.navigate(['customer']);
+            } else if (this.authService.currentUserValue.permission == 2) {
+              this.router.navigate(['employee']);
+            } else {
+              this.router.navigate(['admin']);
+            }
+          }
         },
         (error) => {
           this.error = error;
@@ -60,9 +80,5 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         }
       );
-  }
-
-  toForget(){
-    this.router.navigate(['/forget-password']);
   }
 }
