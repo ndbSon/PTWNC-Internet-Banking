@@ -15,7 +15,7 @@ const router = express.Router();
 
 
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res,next) => {
     // entity = {
     //   "Name": "admin",
     //   "Password": "admin"
@@ -23,9 +23,10 @@ router.post('/login', async (req, res) => {
   let entity= req.body;
   const ret = await authModel.login(entity);
   if (ret === null) {
-    return res.json({
-      authenticated: false
-    })
+    // return res.json({
+    //   authenticated: false
+    // })
+    return next(createError(401, 'wrong username or password'));
   }
   const info = {
     userId:ret.Id,
@@ -38,6 +39,7 @@ router.post('/login', async (req, res) => {
 
   res.json({
     // authenticated: true,
+    Permission:ret.Permission,
     email:ret.Email,
     accessToken,
     refreshToken
@@ -145,7 +147,8 @@ router.post('/forgetPassword',async (req, res) => {
     await userModel.update({Password:hash},{Name});
     return res.json({succes:true})
    }
-   return res.json({succes:false})
+   throw createError(401,"Update Password false")
+  //  return res.json({succes:false})
 })
 
 

@@ -8,11 +8,13 @@ const moment = require('moment');
 const axios = require('axios');
 const md5 = require('md5');
 const NodeRSA = require('node-rsa');
-
-
+const createError = require('http-errors');
+const MyPGP = require('../public/myPGP/keyPGP.json');
+const PGP = require('../public/PGP/key.json');
 const router = express.Router();
 
 router.post('/detail', async (req, res) => {
+  console.log("req data: ", req.body);
   let data =
   {
     nameBank: req.header('nameBank'),
@@ -23,16 +25,21 @@ router.post('/detail', async (req, res) => {
   // if(data.nameBank!="SAPHASANBank"){
   //   return res.json({message:false});
   // }
+
   let sigcompare = hash(data.ts + data.Id + "secretkey"); //secretkey 
+
   if (data.ts <= moment().unix() + 1500) {
     if (data.sig === sigcompare) {
       // query de lay du lieu tra ve info
-      let info = await banksModel.detailname(data.Id)
-      console.log("info: ", info[0])
-      return res.json({ info: info[0].Name });
+      let result = await banksModel.detailname(data.Id)
+      console.log("result: ", result[0])
+      if (result.length === 0) {
+        throw createError(401, "not found");
+      }
+      return res.json({ result: result[0] });
     }
   }
-  res.status(404).json({ message: false });
+  throw createError(401, "not found");
 })
 
 /// passphrase :baoson123 PGP
@@ -46,7 +53,14 @@ router.post("/transfers", async (req, res) => {
     sigpgp: req.header('sigpgp'),
     body: req.body,
   };
-  const publicKeyArmored = fs.readFileSync(path.join(__dirname, `../public/PGP/${data.nameBank}.asc`), 'utf8');
+  var publicKeyArmored = ""
+  if (data.nameBank == "Eight Bank") {
+    publicKeyArmored = PGP.EightBank;
+  } else if (data.nameBank == "SAPHASANBank") {
+    publicKeyArmored = PGP.SAPHASANBank;
+  } else if (data.nameBank == "baoson") {
+    publicKeyArmored = PGP.baoson;
+  }
   let sigcompare = hash(data.ts + data.body + "secretkey"); //secretkey 
   if (data.ts <= moment().unix() + 1500) {
     if (data.sig === sigcompare) {
@@ -58,7 +72,7 @@ router.post("/transfers", async (req, res) => {
       if (valid) {
         console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
 
-        const privateKeyArmored = fs.readFileSync(path.join(__dirname, '../public/myPGP/privateKeyPGP.asc'), 'utf8'); // encrypted private key
+        const privateKeyArmored = MyPGP.privateKeyPGP; // encrypted private key
         const passphrase = `baoson123`; // what the private key is encrypted with
         const { keys: [privateKey] } = await openpgp.key.readArmored(privateKeyArmored);
 
@@ -74,6 +88,8 @@ router.post("/transfers", async (req, res) => {
           Fromaccount: data.body.Fromaccount,
           Content: data.body.Content,
           Toaccount: data.body.Id,
+          FromName: data.body.FromName,
+          ToName: data.body.ToName,
           Date: moment().format('YYYY-MM-DD HH:mm:ss'),
           Sign: data.sigpgp,
           Bank: data.nameBank,
@@ -82,15 +98,90 @@ router.post("/transfers", async (req, res) => {
         await banksModel.update({ Amount: tmoney.toString() }, { Id: data.body.Id });
         return res.json({ sign: cleartext });
       } else {
-        return res.status(404).json({ info: false });
+        throw createError(401, "Sign PGP invalid");
       }
 
+    } else {
+      throw createError(401, "Sign is invalid");
     }
+  } else {
+    throw createError(401, "Time Late");
+  }
+}
+);
+///TEST///
+
+
+//"Id": "2750027628572576"
+router.post('/detailPGP', async (req, res) => {
+  let data = {
+    Id: req.body.Id
+  };
+  console.log("ID: ", data.Id);
+  try {
+    let result = await axios({
+      method: 'post',
+      url: 'https://ptwncinternetbanking.herokuapp.com/banks/detail', // link ngan hang muon chuyen toi
+      data: data,
+      headers: {
+        nameBank: 'baoson',
+        ts: moment().unix(),
+        sig: hash(moment().unix() + data.Id + "secretkey")
+      }
+    });
+    console.log("nhan dcuo: ", result.data)
+    return res.status(201).json(result.data);
+  } catch (error) {
+    console.log("error: ", error.response.data)
+    throw createError(401, error.response.data.err)
   }
 
-  return res.status(404).json({ info: false });
-});
-///TEST///
+})
+
+// "Id": "2750027628572576",
+// 	"Amount":50000,
+// 	"Content":"nop tien"
+// "Fromaccount": "123456789"  Số tài khoản người gửi
+// "FromName":"nguyen van abc",
+// "ToName": "abcscas"
+// "feeBySender":true or false
+router.post('/transferPGP', async (req, res) => {
+  // let paymet = await banksModel.detail({ Iduser: req.tokenPayload.userId });
+  const privateKeyArmored = fs.readFileSync(path.join(__dirname, '../public/myPGP/privateKeyPGP.asc'), 'utf8'); //my private key PGP
+
+  const passphrase = `baoson123`; // what the private key is encrypted with
+
+  const { keys: [privateKey] } = await openpgp.key.readArmored(privateKeyArmored);
+  await privateKey.decrypt(passphrase);
+  const { data: cleartext } = await openpgp.sign({
+    message: openpgp.cleartext.fromText("NHÓM 6"), // CleartextMessage or Message object
+    privateKeys: [privateKey]                     // for signing
+  });
+  let data = {
+    ...req.body,
+    //   Fromacount:paymet[0].Id // so tai khoan nguoi gui
+  };
+  try {
+    let result = await axios({
+      method: 'post',
+      url: 'https://ptwncinternetbanking.herokuapp.com/banks/transfers', // link ngan hang muon chuyen toi
+      data: {
+        ...data
+      },
+      headers: {
+        nameBank: 'baoson',
+        ts: moment().unix(),
+        sig: hash(moment().unix() + data + "secretkey"),
+        sigpgp: JSON.stringify(cleartext)
+      },
+    });
+    return res.status(200).json(result.data);
+  } catch (error) {
+    console.log("error: ", error.response.data)
+    throw createError(401, error.response.data.err)
+  }
+
+})
 
 
 module.exports = router;

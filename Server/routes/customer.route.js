@@ -25,14 +25,20 @@ router.post('/changePassword', async (req, res) => {
     //        oldpass
     //        newpass
     //    }
+    let {
+        oldpass,
+        newpass
+    }=req.body;
     let rows = await userModel.detail({ Id: req.tokenPayload.userId });// req.tokenPayload lấy từ acceskey bên file middleewares
     let Pwd = rows[0].Password;
-    if (bcrypt.compareSync(req.body.oldPassword, Pwd)) {
-        const hash = bcrypt.hashSync(req.body.newPassword, 8);
+    if (bcrypt.compareSync(oldpass, Pwd)) {
+        const hash = bcrypt.hashSync(newpass, 8);
         await userModel.update({ Password: hash }, { Id: req.tokenPayload.userId });
         return res.json({ succes: true });
+    }else{
+        throw createError(401, "Old Password is incorrect");
     }
-    return res.json({ succes: false });
+   
 })
 
 router.get('/account', async (req, res) => {
@@ -121,19 +127,11 @@ router.get('/listAccountRemind', async (req, res) => {
 })
 
 router.post('/tranfers', async (req, res) => {
-    //    body={
-    //        Idaccount, tài khoản người nhận
-    //        amount,
-    //        charge, "0" người gửi trả phí ; "1" người nhận trả phí
-    //        content,
-    //        token   mã otp
-    //    }
-
-    var { token, Amount, Id, Content, charge } = req.body;
-    let key = req.tokenPayload.userId
-    const isValid = totp.verify({ token, secret: 'baoson123' });
+    var { token, Amount, Id, Content, charge,ToName } = req.body;
+    Amount=parseInt(Amount);
     let fmoney, tmoney;
-
+    const isValid = totp.verify({ token, secret: 'baoson123' });
+    
     if (isValid === false) {
         // return res.status(400).json({ succes: false, text: "Sai OTP" });
         throw createError(401, "Sai OTP");
@@ -147,11 +145,11 @@ router.post('/tranfers', async (req, res) => {
     // console.log("Amount:  ", Amount, typeof Amount, " --  ", parseInt(paymet[0].Amount))
     if (Amount < parseInt(paymet[0].Amount)) {
         // console.log("charge:  ", charge, "  -  ", typeof charge)
-        if (charge === 0) {
+        if (charge === true) {
             fmoney = parseInt(paymet[0].Amount) - Amount - 1000;
             tmoney = parseInt(ac[0].Amount) + Amount;
             // console.log("0:  ", fmoney, "  -  ", tmoney)
-        } else if (charge === 1) {
+        } else if (charge === false) {
             fmoney = parseInt(paymet[0].Amount) - Amount;
             tmoney = parseInt(ac[0].Amount) + Amount - 1000;
             // console.log("1:  ", fmoney, "  -  ", tmoney)
@@ -164,7 +162,8 @@ router.post('/tranfers', async (req, res) => {
         // return res.status(400).json({ succes: false, text: "Tài Khoản Không Đủ" });
         throw createError(401, "Tài Khoản Không Đủ Số Dư");
     }
-
+    let tempt= await customnerModel.detail({Id:req.tokenPayload.userId})
+    let FromName=tempt[0].Fullname;
     let entity = {
         Amount,
         Fromaccount: paymet[0].Id,
@@ -173,6 +172,8 @@ router.post('/tranfers', async (req, res) => {
         Date: moment().format('YYYY-MM-DD HH:mm:ss'),
         Sign: "0",
         Bank: "0",
+        ToName,
+        FromName
     }
     let result = await customnerModel.addtransaction(entity);
     await customnerModel.updatepayment({ Amount: fmoney.toString() }, { Id: paymet[0].Id });
@@ -261,10 +262,31 @@ router.post('/deletedebit', async (req, res) => {
 
 router.get('/transaction', async (req, res) => {
     let paymet = await customnerModel.detailpayment({ Iduser: req.tokenPayload.userId });
-    let debit = await customnerModel.detaildone(paymet[0].Id);
-    let frAccount = await customnerModel.detailtransaction({ Fromaccount: paymet[0].Id });
-    let toAccount = await customnerModel.detailtransaction({ Toaccount: paymet[0].Id });
-    res.json({ debit, frAccount, toAccount })
+    const page=req.query.page;
+    const limit=req.query.limit;
+   
+    let start = (page-1)*limit;
+    let end = limit;
+    const Type = req.query.Type;
+    if(Type==='0'){
+        let result = await customnerModel.detailtransactionall({ Toaccount: paymet[0].Id },{Fromaccount: paymet[0].Id},start,end);
+        let count = await customnerModel.countRowAll(paymet[0].Id)
+        return  res.json({result,count:count[0].count});
+    }else if(Type==='1'){
+        let result = await customnerModel.detailtransaction123({Fromaccount: paymet[0].Id},start,end);
+        let count = await customnerModel.count('Fromaccount',paymet[0].Id);
+        return  res.json({result,count:count[0].count});
+    }else if(Type==='2'){
+        let result = await customnerModel.detailtransaction123({Toaccount: paymet[0].Id},start,end);
+        let count = await customnerModel.count('Toaccount',paymet[0].Id)
+        return  res.json({result,count:count[0].count});
+    }else if(Type==='3'){
+        let result = await customnerModel.detaildone(paymet[0].Id,start,end);
+        let count = await customnerModel.countdebit(paymet[0].Id);
+        return  res.json({result,count:count[0].count});
+    }
+    throw createError(401,"Type dont invalid")
+
 })
 
 router.post('/sendotp', async (req, res) => {
@@ -322,10 +344,6 @@ router.post('/sendotp', async (req, res) => {
 });
 
 
-
-// router.post('/deldebit', async (req, res) =>{
-
-// })
 
 
 

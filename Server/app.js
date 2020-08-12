@@ -23,7 +23,6 @@ app.use((req, res, next) => {
 })
 app.use(function (err, req, res, next) {
   console.log(err);
-  console.log("abcs");
 
   const statusCode = err.status || 500;
   res.status(statusCode).json({err:err.message});

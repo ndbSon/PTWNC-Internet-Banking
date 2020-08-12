@@ -31,6 +31,7 @@ module.exports = {
                 Iduser: result.insertId,
                 Amount:"0"}
       await db.add(ac,'accountpayment');
+      return {...ac}
     }else if(Name.length !=0){
       return 1;
     }else if(Email.length !=0){
