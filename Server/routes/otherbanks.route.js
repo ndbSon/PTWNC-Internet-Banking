@@ -82,7 +82,7 @@ router.post("/transfers", async (req, res) => {
           privateKeys: [privateKey]    // for signing
         });
         let paymet = await banksModel.detail({ Id: data.body.Id });
-        let tmoney = parseInt(paymet[0].Amount) + data.body.Amount;
+       
         let entity = {
           Amount: data.body.Amount,
           Fromaccount: data.body.Fromaccount,
@@ -95,7 +95,11 @@ router.post("/transfers", async (req, res) => {
           Bank: data.nameBank,
         }
         await banksModel.addtransaction(entity)
-        await banksModel.update({ Amount: tmoney.toString() }, { Id: data.body.Id });
+        if(data.body.feeBySender===true){
+          await customnerModel.updatepayment({ Amount: (parseInt(paymet[0].Amount) + parseInt(data.body.Amount)).toString() }, { Id: paymet[0].Id });
+        }else{
+          await customnerModel.updatepayment({ Amount: (parseInt(paymet[0].Amount) + parseInt(data.body.Amount)-1000).toString() }, { Id: paymet[0].Id });
+        }
         return res.json({ sign: cleartext });
       } else {
         throw createError(401, "Sign PGP invalid");
