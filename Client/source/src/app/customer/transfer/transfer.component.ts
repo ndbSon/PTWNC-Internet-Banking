@@ -57,16 +57,16 @@ export class TransferComponent implements OnInit {
     // }, 4000);
   }
 
-  onBlurTest(e) {
-    this.service.postCheckName(this.f.Id).subscribe(
-      (r) => {
-        console.log(r);
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
-  }
+  // onBlurTest(e) {
+  //   this.service.postCheckName(this.f.Id).subscribe(
+  //     (r) => {
+  //       console.log(r);
+  //     },
+  //     (e) => {
+  //       console.log(e);
+  //     }
+  //   );
+  // }
 
   onSubmit() {
     this.body = this.formSubmit.value;

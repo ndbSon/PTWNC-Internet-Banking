@@ -18,16 +18,16 @@ export class CustomerService {
   }
   getNameRemind(id) {
     let params = new HttpParams().set("Id", id);
-    return this.http.post<any>(`${this.url}/getNameRemind`, {params})
+    return this.http.get<any>(`${this.url}/getNameRemind`, {params})
   }
   postDeleteAccountRemind(body) {
-    return this.http.post<any>(`${this.url}/changePassword`, body);
+    return this.http.post<any>(`${this.url}/deleteAccountRemind`, body);
   }
   postUpdateAccountRemind(body) {
-    return this.http.post<any>(`${this.url}/updateAcountRemind`, body);
+    return this.http.post<any>(`${this.url}/updateAccountRemind`, body);
   }
   getListAccountRemind() {
-    return this.http.get<any>(`${this.url}/account`);
+    return this.http.get<any>(`${this.url}/listAccountRemind`);
   }
   postTransfer(body) {
     return this.http.post<any>(`${this.url}/tranfers`, body);
@@ -48,10 +48,5 @@ export class CustomerService {
     let params = new HttpParams().set("page", paging.page)
     .set("limit", paging.limit);
     return this.http.get<any>(`${this.url}/transaction`, {params});
-  }
-
-  postCheckName(id) {
-    let params = new HttpParams().set("Id", id);
-    return this.http.get<any>(`${this.url}/listAcountRemind`, { params });
   }
 }

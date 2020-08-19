@@ -37,6 +37,9 @@ export class AuthInterceptorService implements HttpInterceptor {
           this.authService.logout();
           this.router.navigate(["/login"]);
         }
+        if (err.error.err === false) {
+          return;
+        }
         let data = {
           code: err.status,
           message:

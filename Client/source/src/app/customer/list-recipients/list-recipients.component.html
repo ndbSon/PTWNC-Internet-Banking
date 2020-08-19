@@ -11,7 +11,7 @@
         <div class="card card-primary">
           <ngx-datatable
             class="material"
-            [rows]="payRows"
+            [rows]="listReminders"
             [columnMode]="'force'"
             [headerHeight]="50"
             [footerHeight]="50"
@@ -20,19 +20,39 @@
           >
             <ngx-datatable-column name="Số tài khoản">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Id }}
+                {{ row.Idaccount }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Tên gợi nhớ">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Amount }}
+                {{ row.Name }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Tác vụ">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Amount }}
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                <button
+                  data-toggle="modal"
+                  data-target="#formModal"
+                  class="btn btn-primary"
+                  (click)="editRecipient(row)"
+                  style="margin-right: 5px;"
+                >
+                  <i class="fas fa-receipt"></i>
+                </button>
+
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteRecipient(row.Idaccount)"
+                  style="margin-right: 5px;"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
               </ng-template>
               <!-- Tác vụ gồm: Xóa và điều chỉnh thông tin -->
             </ngx-datatable-column>
@@ -52,12 +72,12 @@
   Thêm người nhận
 </button>
 <button
-class="btn btn-default float-right"
-type="button"
-routerLink="/customer"
-style="margin-left: 10px; margin-right: 20px;"
+  class="btn btn-default"
+  type="button"
+  routerLink="/customer"
+  style="margin-left: 10px; margin-right: 20px;"
 >
-Quay lại
+  Quay lại
 </button>
 <!-- Modal -->
 <div
@@ -72,7 +92,8 @@ Quay lại
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="formModal">Thêm người nhận</h5>
+        <h5 class="modal-title" *ngIf="!isEdited">Thêm người nhận</h5>
+        <h5 class="modal-title" *ngIf="isEdited">Chỉnh sửa người nhận</h5>
         <button
           type="button"
           class="close"
@@ -91,17 +112,14 @@ Quay lại
               type="text"
               class="form-control"
               placeholder="Id tài khoản"
-              formControlName="Idacount"
+              formControlName="Idaccount"
               [ngClass]="{
-                'is-invalid': f.Idacount.errors && submitted,
-                'is-valid': !f.Idacount.errors && submitted
+                'is-invalid': f.Idaccount.errors && submitted && nameInvalid,
+                'is-valid': !f.Idaccount.errors && submitted && !nameInvalid
               }"
             />
-            <div
-              *ngIf="f.Idacount.errors && submitted"
-              class="text-red"
-            >
-              <div *ngIf="f.Idacount.errors.required">
+            <div *ngIf="f.Idaccount.errors && submitted" class="text-red">
+              <div *ngIf="f.Idaccount.errors.required">
                 Vui lòng không bỏ trống field này!
               </div>
             </div>
@@ -113,7 +131,6 @@ Quay lại
               class="form-control"
               placeholder="Nhập tên gợi nhớ"
               formControlName="Name"
-              
             />
           </div>
           <!-- </div> -->
@@ -124,7 +141,9 @@ Quay lại
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Đóng
         </button>
-        <button type="button" (click)="onSubmit()" class="btn btn-primary">Lưu</button>
+        <button type="button" (click)="onSubmit()" class="btn btn-primary">
+          Lưu
+        </button>
       </div>
     </div>
   </div>
