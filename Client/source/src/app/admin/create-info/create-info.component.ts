@@ -25,7 +25,7 @@ export class CreateInfoComponent implements OnInit {
   ngOnInit() {
     this.formSubmit = this.formBuilder.group(
       {
-        Name: null,
+        // Name: null,
         Email: [null, [Validators.email, Validators.required]],
         Password: [null, [Validators.required, Validators.minLength(6)]],
         Phone: null,

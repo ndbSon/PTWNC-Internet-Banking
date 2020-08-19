@@ -1,6 +1,6 @@
 <div class="content-header">
   <h3>
-    Các con nợ
+    Nợ cần đòi
   </h3>
 </div>
 <div class="row justify-content-end" style="margin-bottom: 1rem;">
@@ -23,7 +23,7 @@
       <div class="col-md-12">
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">Con nợ</h3>
+            <h3 class="card-title">Người mượn</h3>
           </div>
           <ngx-datatable
             class="dark"
@@ -34,19 +34,19 @@
             [rowHeight]="100"
             [sorts]="[{ prop: 'Amount', dir: 'asc' }]"
           >
-            <ngx-datatable-column name="Số tiền">
+            <ngx-datatable-column prop="Amount" name="Số tiền">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Amount }}
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Tên con nợ">
+            <ngx-datatable-column prop="Nameaccount" name="Tên con nợ">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Nameaccount }}
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Số tài khoản">
+            <ngx-datatable-column prop="Iddebit" name="Số tài khoản">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Iddebit }}
               </ng-template>
@@ -64,12 +64,12 @@
               </ng-template>
             </ngx-datatable-column> -->
 
-            <ngx-datatable-column name="Trạng thái">
+            <ngx-datatable-column prop="Done" name="Trạng thái">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <div *ngIf="row.Done === 0" class="text-red">
                   Chưa thanh toán
                 </div>
-                <div *ngIf="row.Done != 0" class="text-green">
+                <div *ngIf="row.Done === 1" class="text-green">
                   Đã thanh toán
                 </div>
               </ng-template>
@@ -83,7 +83,9 @@
               >
                 <button
                   class="btn btn-primary"
-                  (click)="payDebit(row)"
+                  data-toggle="modal"
+                  data-target="#modalConfirm"
+                  (click)="displayConfirmModal(row)"
                   style="margin-right: 5px;"
                 >
                   <i class="fas fa-receipt"></i>
@@ -91,6 +93,8 @@
 
                 <button
                   class="btn btn-danger"
+                  data-toggle="modal"
+                  data-target="#modalDelete"
                   (click)="removeDebit(row)"
                   style="margin-right: 5px;"
                 >
@@ -104,6 +108,125 @@
     </div>
   </div>
 </section>
+
+
+<div class="content-header">
+  <h3>
+    Nợ cần trả
+  </h3>
+</div>
+<!-- <div class="row justify-content-end" style="margin-bottom: 1rem;">
+  <div class="col-md-3 d-flex justify-content-end">
+    <button
+      class="btn btn-primary m-l-20"
+      data-toggle="modal"
+      data-target="#modalAddDebit"
+      (click)="resetModalAddDebit()"
+    >
+      Tạo nhắc nợ
+    </button>
+  </div>
+</div> -->
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Nợ cần trả</h3>
+          </div>
+          <ngx-datatable
+            class="material striped"
+            [rows]="others"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="100"
+            [sorts]="[{ prop: 'Amount', dir: 'asc' }]"
+          >
+            <ngx-datatable-column prop="Amount" name="Số tiền">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Amount }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column prop="Nameaccount" name="Người cho mượn">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Nameaccount }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column prop="Iddebit" name="Số tài khoản">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Iddebit }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Nội dung">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Content }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column name="Lý do">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Reason }}
+              </ng-template>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column prop="Done" name="Trạng thái">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngIf="row.Done === 0" class="text-red">
+                  Chưa thanh toán
+                </div>
+                <div *ngIf="row.Done === 1" class="text-green">
+                  Đã thanh toán
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Hành động">
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                <!-- <button
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#modalConfirm"
+                  (click)="displayConfirmModal(row)"
+                  style="margin-right: 5px;"
+                >
+                  <i class="fas fa-receipt"></i>
+                </button> -->
+
+                <button
+                  class="btn btn-danger"
+                  data-toggle="modal"
+                  data-target="#modalDelete"
+                  (click)="removeDebit(row)"
+                  style="margin-right: 5px;"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- ============================================ MIND DEBIT ============================================ -->
 <div
   #modalAddDebit
   class="modal fade"
@@ -129,8 +252,20 @@
       <div class="modal-body">
         <form [formGroup]="formSubmit" (ngSubmit)="onSubmit()">
           <div class="form-group">
+            <label>Tên gợi nhớ</label>
+            <ng-select formControlName="Idreminder" 
+            (change)="setIdValue()">
+              <ng-option
+                *ngFor="let per of listReminders; let i = index"
+                [value]="per.Idaccount"
+                >{{ per.Name }}</ng-option
+              >
+            </ng-select>
+          </div>
+          <div class="form-group">
             <label>Tài khoản</label>
             <input
+              (blur)="checkName()"
               type="text"
               class="form-control"
               placeholder="Id tài khoản"
@@ -165,7 +300,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label>Tên con nợ</label>
+            <label>Tên tài khoản</label>
 
             <div class="input-group">
               <input
@@ -175,7 +310,11 @@
                 formControlName="Namedebit"
               />
               <div class="input-group-append">
-                <span style="cursor: pointer;" class="input-group-text">
+                <span
+                  (click)="refresh(f.Iddebit.value)"
+                  style="cursor: pointer;"
+                  class="input-group-text"
+                >
                   <i class="fas fa-sync"></i>
                 </span>
               </div>
@@ -202,6 +341,131 @@
     </div>
   </div>
 </div>
+
+<!-- ================ MODAL CONFIRM ================ -->
+<div
+  #modalConfirm
+  class="modal fade"
+  id="modalConfirm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalConfirm"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirm">Xác nhận</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>OTP</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder=""
+              [(ngModel)]="OTP"
+              #ctrl="ngModel"
+              required
+            />
+            <div class="input-group-append">
+              <span
+                (click)="sendOTP()"
+                style="cursor: pointer;"
+                class="input-group-text"
+              >
+                <i class="fas fa-sync"></i>
+              </span>
+            </div>
+          </div>
+          <div *ngIf="ctrl.invalid" class="text-red">
+            Vui lòng không bỏ trống field này!
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Đóng
+        </button>
+        <button
+          type="button"
+          (click)="doneDebit()"
+          class="btn btn-primary"
+          [disabled]="ctrl.invalid"
+        >
+          Xác nhận
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================ MODAL DELETE ================ -->
+<div
+  #modalDelete
+  class="modal fade"
+  id="modalDelete"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalDelete"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDelete">Xác nhận</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Lý do</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder=""
+              [(ngModel)]="reason"
+              #rs="ngModel"
+              required
+            />
+          <div *ngIf="rs.invalid" class="text-red">
+            Vui lòng không bỏ trống field này!
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Đóng
+        </button>
+        <button
+          type="button"
+          (click)="deleteMyDebit()"
+          class="btn btn-primary"
+          [disabled]="rs.invalid"
+        >
+          Xác nhận
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- ================ MODAL PAY ================ -->
 <!-- <div
   #modalAddDebit
@@ -256,11 +520,10 @@
   </div>
 </div> -->
 
-
 <!-- ================ MODAL PAY ================ -->
 
 <!-- =============== CHỦ NỢ =============== -->
-<div class="content-header">
+<!-- <div class="content-header">
   <h3>
     Các chủ nợ
   </h3>
@@ -278,67 +541,4 @@
       Tạo mới tài khoản
     </button>
   </div>
-</div>
-<section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Chủ nợ</h3>
-          </div>
-          <ngx-datatable
-            class="dark"
-            [rows]="others"
-            [columnMode]="'force'"
-            [headerHeight]="50"
-            [footerHeight]="50"
-            [rowHeight]="100"
-            [sorts]="[{ prop: 'Amount', dir: 'asc' }]"
-          >
-            <ngx-datatable-column name="Số tiền">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Amount }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column name="Tên chủ nợ">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Nameaccount }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column name="Số tài khoản">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Iddebit }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column name="Nội dung">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Content }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <!-- <ngx-datatable-column name="Lý do">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Reason }}
-              </ng-template>
-            </ngx-datatable-column> -->
-
-            <ngx-datatable-column name="Trạng thái">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                <div *ngIf="row.Done === 0" class="text-red">
-                  Chưa thanh toán
-                </div>
-                <div *ngIf="row.Done != 0" class="text-green">
-                  Đã thanh toán
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+</div> -->

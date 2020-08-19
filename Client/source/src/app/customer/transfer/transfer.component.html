@@ -33,18 +33,42 @@
                 </div>
               </div>
               <div class="form-group">
+                <label>Tên gợi nhớ</label>
+                <ng-select formControlName="Idreminder" 
+                (change)="setIdValue()">
+                  <ng-option
+                    *ngFor="let per of listReminders; let i = index"
+                    [value]="per.Idaccount"
+                    >{{ per.Name }}</ng-option
+                  >
+                </ng-select>
+                <div class="text-blue">
+                  Chưa có tên gợi nhớ? Tạo mới
+                  <strong
+                    style="cursor: pointer;"
+                    data-toggle="modal"
+                    data-target="#formModal"
+                    (click)="resetForm()"
+                    >tại đây</strong
+                  >
+                </div>
+              </div>
+              <div class="form-group">
                 <label>Số tài khoản</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="Id"
-                  (blur)="onBlurTest($event)"
+                  (blur)="checkName()"
                 />
               </div>
-
               <div class="form-group">
-                <label>Tên chủ tài khoản</label>
-                <input type="text" class="form-control" disabled />
+                <label>Tên tài khoản</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="Name"
+                />
               </div>
               <div class="form-group">
                 <label>Số tiền (VND)</label>
@@ -65,8 +89,8 @@
               <div class="form-group">
                 <label>Hình thức thanh toán phí</label>
                 <ng-select formControlName="charge">
-                  <ng-option value="1">Người nhận trả phí</ng-option>
-                  <ng-option value="0">Người gửi trả phí</ng-option>
+                  <ng-option [value]="true">Người nhận trả phí</ng-option>
+                  <ng-option [value]="false">Người gửi trả phí</ng-option>
                 </ng-select>
               </div>
               <div class="form-group" style="width: 500px;">
@@ -97,9 +121,9 @@
 
       <div class="card-footer">
         <button
-          type="submit"
+          type="button"
           class="btn btn-primary"
-          [disabled]="formSubmit.invalid"
+          (click)="onSubmit()"
         >
           Lưu
         </button>
@@ -115,3 +139,76 @@
     </div>
   </div>
 </section>
+
+<!-- Modal add -->
+<div
+  #formModal
+  class="modal fade"
+  id="formModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="formModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Thêm người nhận</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formAdd" (ngSubmit)="onAddRecipients()">
+          <!-- <div class="card-body"> -->
+          <div class="form-group">
+            <label>Tài khoản</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Id tài khoản"
+              formControlName="Idaccount"
+              [ngClass]="{
+                'is-invalid': f1.Idaccount.errors && submitted && nameInvalid,
+                'is-valid': !f1.Idaccount.errors && submitted && !nameInvalid
+              }"
+            />
+            <div *ngIf="f1.Idaccount.errors && submitted" class="text-red">
+              <div *ngIf="f1.Idaccount.errors.required">
+                Vui lòng không bỏ trống field này!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tên gợi nhớ</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nhập tên gợi nhớ"
+              formControlName="Name"
+            />
+          </div>
+          <!-- </div> -->
+          <!-- /.card-body -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Đóng
+        </button>
+        <button
+          type="button"
+          (click)="onAddRecipient()"
+          class="btn btn-primary"
+        >
+          Lưu
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

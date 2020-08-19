@@ -6,6 +6,7 @@ export class CustomerService {
   constructor(private http: HttpClient) {}
 
   private readonly url: string = environment.apiUrlBankRsa + "/customer";
+  private readonly url_local: string = environment.apiUrlLocal + "/customer";
 
   getListAccount() {
     return this.http.get<any>(`${this.url}/account`);
@@ -44,9 +45,15 @@ export class CustomerService {
   getOtherDebits() {
     return this.http.get<any>(`${this.url}/debitother`);
   }
-  getTransaction(paging) {
-    let params = new HttpParams().set("page", paging.page)
-    .set("limit", paging.limit);
+  getTransaction(body) {
+    let params = new HttpParams().set("page", body.page)
+    .set("limit", body.limit).set("Type", body.Type);
     return this.http.get<any>(`${this.url}/transaction`, {params});
+  }
+  getOTP(body) {
+    return this.http.post<any>(`${this.url_local}/sendotp`, body);
+  }
+  deleteDebit(body) {
+    return this.http.post<any>(`${this.url}/deletedebit`,body);
   }
 }

@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrlBankRsa: 'https://ptwncinternetbanking.herokuapp.com'
+  // apiUrlBankRsa: 'https://ptwncinternetbanking.herokuapp.com',
+  apiUrlBankRsa: 'http://localhost:3000',
+  apiUrlLocal: 'http://localhost:3000'
 };
 
 /*

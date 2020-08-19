@@ -21,14 +21,20 @@ export class ListInfoComponent implements OnInit {
   ngOnInit() {
     this.service.getListAccount().subscribe((res) => {
       this.accRows = res;
-      this.accRows.map((e) => {
-        if (e.Permission == 1) {
-          e.Permission = "Khách hàng";
-        } else if (e.Permission == 2) {
-          e.Permission = "Nhân viên";
-        } else {
-          e.Permission = "Admin";
-        }
+      // this.accRows.map((e) => {
+      //   if (e.Permission == 1) {
+      //     e.Permission = "Khách hàng";
+      //   } else if (e.Permission == 2) {
+      //     e.Permission = "Nhân viên";
+      //   } else {
+      //     e.Permission = "Admin";
+      //   }
+      // });
+      this.accRows = this.accRows.filter((e) => {
+        return e.Permission === 2;
+      });
+      this.accRows.map(e => {
+        e.Permission = "Nhân viên";
       });
     });
   }

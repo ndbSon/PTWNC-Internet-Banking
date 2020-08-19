@@ -1,24 +1,42 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import * as moment from 'moment';
-import { CustomerService } from 'src/app/services/customer.service';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { DaterangepickerDirective } from "ngx-daterangepicker-material";
+import * as moment from "moment";
+import { CustomerService } from "src/app/services/customer.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  selector: "app-history",
+  templateUrl: "./history.component.html",
+  styleUrls: ["./history.component.scss"],
 })
 export class HistoryComponent implements OnInit {
-  @ViewChild(DaterangepickerDirective, { static: true })
+  @ViewChild('historyTable', { static: true }) historyTable: DatatableComponent;
   transaction: any[];
+  type = 1;
   constructor(
     private service: CustomerService,
     private router: Router,
-    private ms: ToastrService) { }
+    private ms: ToastrService
+  ) {}
   ngOnInit() {
+    this.getData();
     // this.submit();
+  }
+
+  getData() {
+    let body = {
+      page: 1,
+      limit: 20,
+      Type: this.type
+    }
+    this.service.getTransaction(body).subscribe(res => {
+      this.transaction = res.result;
+    })
+  }
+  log() {
+    this.getData();
   }
 
   // ngModelChange(e){
@@ -30,7 +48,7 @@ export class HistoryComponent implements OnInit {
   //   }
   //   this.submit();
   // }
-  
+
   // submit(){
   //   this.body = { begin: this.begin, end: this.end };
   //   this.service
@@ -40,5 +58,4 @@ export class HistoryComponent implements OnInit {
   //       this.tranRows = res.trans;
   //     });
   // }
-
 }

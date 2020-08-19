@@ -5,7 +5,11 @@
 </div>
 <div class="row justify-content-end" style="margin-bottom: 1rem;">
   <div class="col-md-3 d-flex justify-content-end">
-    <button routerLink="/admin/view-transaction" class="btn btn-info" style="margin-right: 1rem;">
+    <button
+      routerLink="/admin/view-transaction"
+      class="btn btn-info"
+      style="margin-right: 1rem;"
+    >
       Xem giao dịch
     </button>
     <button routerLink="/admin/create" class="btn btn-primary m-l-20">
@@ -34,9 +38,14 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Họ Tên">
+            <!-- <ngx-datatable-column name="Họ Tên">
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.Name }}
+              </ng-template>
+            </ngx-datatable-column> -->
+            <ngx-datatable-column name="Email">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Email }}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Phân Quyền">
@@ -50,7 +59,7 @@
                 let-value="value"
                 ngx-datatable-cell-template
               >
-                <button
+                <!-- <button
                   md-icon-button
                   (click)="lock(row.Id)"
                   style="margin-right: 5px;"
@@ -64,10 +73,10 @@
                   style="margin-right: 5px;"
                 >
                   <i class="fa fa-unlock"></i>
-                </button>
+                </button> -->
 
                 <button
-                  md-icon-button
+                  class="btn btn-primary"
                   [routerLink]="['/admin/info-edit', row.Id]"
                 >
                   <i class="fa fa-edit"></i>

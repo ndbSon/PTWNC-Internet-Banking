@@ -1,61 +1,99 @@
 <div class="content-header">
-    <h3>
-      Lịch sử giao dịch
-    </h3>
+  <h3>
+    Lịch sử giao dịch
+  </h3>
+</div>
+<div class="form-group">
+  <label>Ngân hàng</label>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      [value]="1"
+      [(ngModel)]="type"
+      (change)="log()"
+    />
+    <label class="form-check-label">1</label>
   </div>
-  <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <!-- left column -->
-        <div class="col-md-12">
-          <div class="card card-primary">
-  
-            <ngx-datatable class="material" [rows]="payRows" [columnMode]="'force'" [headerHeight]="50"
-              [footerHeight]="50" [rowHeight]="100" [sorts]="[{ prop: 'Id', dir: 'asc' }]">
-              <ngx-datatable-column name="Người gửi">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.Id }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Ngân hàng người gửi">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.Id }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Người nhận">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.Id }}
-                </ng-template>
-              </ngx-datatable-column>
-  
-              <ngx-datatable-column name="Ngân hàng người nhận">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.Amount }}
-                </ng-template>
-              </ngx-datatable-column>
-               
-         
-              <ngx-datatable-column name="Loại giao dịch">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.Id }}
-                </ng-template>
-              </ngx-datatable-column>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      [value]="2"
+      [(ngModel)]="type"
+      (change)="log()"
+    />
+    <label class="form-check-label">2</label>
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      value="3"
+      [(ngModel)]="type"
+      (change)="log()"
+    />
+    <label class="form-check-label">3</label>
+  </div>
+</div>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <ngx-datatable
+            #historyTable
+            [columnMode]="'force'"
+            class="material striped"
+            [rows]="transaction"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [sorts]="[{ prop: 'Date', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="Người gửi">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.FromName }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Người nhận">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.ToName }}
+              </ng-template>
+            </ngx-datatable-column>
 
-              <ngx-datatable-column name="Số tiền">
+            <ngx-datatable-column name="Ngân hàng người nhận">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Bank }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Nội dung">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Content }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column name="Loại giao dịch">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.Id }}
+                  {{ row.Type }}
                 </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Ngày giao dịch">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.Id }}
-                </ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
-          </div>
+              </ngx-datatable-column> -->
+
+            <ngx-datatable-column prop="Amount" name="Số tiền">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Amount }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="Date" name="Ngày giao dịch">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Date }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
       </div>
     </div>
-  </section>
-  
-  
+  </div>
+</section>

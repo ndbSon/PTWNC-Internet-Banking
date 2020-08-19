@@ -45,11 +45,9 @@ export class AuthService {
           // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
           if (res.accessToken) {
             this.ms.success("Đăng nhập thành công");
-            console.log(res);
             let decoded = jwt_decode(res.accessToken);
-            console.log(decoded);
             let currentUser: User = {
-              Email: res.email,
+              email: res.email,
               Name: Name,
               iat: decoded.iat,
               exp: decoded.exp,

@@ -31,6 +31,7 @@ export class ListRecipientsComponent implements OnInit {
       Name: null,
     });
     this.getData();
+    this.getListReminders();
   }
   getData() {
     this.service.getListAccountRemind().subscribe((res) => {
@@ -38,6 +39,34 @@ export class ListRecipientsComponent implements OnInit {
         this.listReminders = res;
       }
     });
+  }
+  getListReminders(name?) {
+    this.service.getListAccountRemind().subscribe((res) => {
+      this.listReminders = res;
+      if (name && !this.isEdited) {
+        let existed = this.listReminders.some((e) => {
+          return e.Name == name;
+        });
+        if (existed) {
+          this.ms.error("Tài khoản này đã có tên gợi nhớ. Vui lòng kiểm tra lại");
+        } else {
+          this.f.Name.setValue(name);
+        }
+      }
+    });
+  }
+  checkName() {
+    if (this.f.Idaccount.value != null) {
+      this.service.getNameRemind(this.f.Idaccount.value).subscribe((res) => {
+        if (res) {
+          if (this.isEdited) {
+            this.f.Name.setValue(res.Name);
+          } else {
+            this.getListReminders(res.Name);
+          }
+        }
+      });
+    }
   }
   resetForm() {
     this.submitted = false;
@@ -81,6 +110,7 @@ export class ListRecipientsComponent implements OnInit {
           if (res) {
             this.ms.success("Thêm thành công");
             this.getData();
+            this.formModal.nativeElement.click();
           }
         });
       }

@@ -11,6 +11,8 @@ export class GeneralService {
   constructor(protected http: HttpClient, private service: AuthService) {}
 
   private readonly url: string = environment.apiUrlBankRsa + "/user";
+  private readonly url_local: string = environment.apiUrlLocal + "/user";
+  
   sendRefreshToken() {
     let header = new HttpHeaders().set("x-access-token", "");
     let body = {
@@ -25,7 +27,7 @@ export class GeneralService {
   postOTP(body) {
     let header = new HttpHeaders().set("x-access-token", "");
 
-    return this.http.post<any>(`${this.url}/sendotp`, body, {
+    return this.http.post<any>(`${this.url_local}/sendotp`, body, {
       headers: header,
     });
   }

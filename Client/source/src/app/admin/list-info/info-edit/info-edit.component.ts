@@ -27,7 +27,7 @@ export class InfoEditComponent implements OnInit {
     this.Id = this.route.snapshot.params["id"];
     this.formSubmit = this.formBuilder.group(
       {
-        Name: null,
+        // Name: null,
         Email: [null, [Validators.email, Validators.required]],
         Phone: null
       }
@@ -35,7 +35,7 @@ export class InfoEditComponent implements OnInit {
     this.service.getAccount(this.Id).subscribe(res => {
       if (res.Name) {
         this.formSubmit.patchValue({
-          Name: res.Name,
+          // Name: res.Name,
           Email: res.Email,
           Phone: res.Phone
         })

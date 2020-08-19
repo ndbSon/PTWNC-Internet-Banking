@@ -23,7 +23,7 @@ export class AdminService {
     const params = new HttpParams()
       .set("begin", body.begin)
       .set("end", body.end);
-    return this.http.get<any>(`${this.url}/transaction`, { params });
+    return this.http.get<any>(`${this.url}/statis`, { params });
   }
   getTransbank(body) {
     return this.http.post<any>(`${this.url}/transbank`, body);
