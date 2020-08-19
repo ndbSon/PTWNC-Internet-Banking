@@ -32,13 +32,16 @@ import { CustomerComponent } from "./customer/customer.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ToastrModule } from "ngx-toastr";
-import { InfoEditComponent } from './admin/list-info/info-edit/info-edit.component';
-import { EmployeeComponent } from './employee/employee.component';
-import { TopupComponent } from './employee/topup/topup.component';
-import { CreateDebitComponent } from './customer/debit/create-debit/create-debit.component';
-import { RemoveDebitComponent } from './customer/debit/remove-debit/remove-debit.component';
-import { ForgetPasswordComponent } from './general/forget-password/forget-password.component';
-import { RouterModule } from '@angular/router';
+import { InfoEditComponent } from "./admin/list-info/info-edit/info-edit.component";
+import { EmployeeComponent } from "./employee/employee.component";
+import { TopupComponent } from "./employee/topup/topup.component";
+import { CreateDebitComponent } from "./customer/debit/create-debit/create-debit.component";
+import { RemoveDebitComponent } from "./customer/debit/remove-debit/remove-debit.component";
+import { ForgetPasswordComponent } from "./general/forget-password/forget-password.component";
+import { RouterModule } from "@angular/router";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { NgSelectConfig } from "@ng-select/ng-select";
+import { ɵs } from "@ng-select/ng-select";
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,6 +83,7 @@ import { RouterModule } from '@angular/router';
     NgxDaterangepickerMd.forRoot(),
     MatFormFieldModule,
     MatInputModule,
+    NgSelectModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: "toast-top-right",
@@ -95,6 +99,8 @@ import { RouterModule } from '@angular/router';
       useClass: AuthInterceptorService,
       multi: true,
     },
+    NgSelectConfig,
+    ɵs,
   ],
   bootstrap: [AppComponent],
 })

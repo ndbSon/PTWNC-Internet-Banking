@@ -18,6 +18,7 @@ export class TransferComponent implements OnInit {
   body: any;
   currentUser = new User();
   value = "fulltime";
+  isInternal = true;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -34,7 +35,7 @@ export class TransferComponent implements OnInit {
   ngOnInit() {
     this.currentUser = this.authService.currentUserValue;
     this.formSubmit = this.formBuilder.group({
-      type: null,
+      type: ["in"],
       Amount: null,
       Id: null,
       Content: null,
