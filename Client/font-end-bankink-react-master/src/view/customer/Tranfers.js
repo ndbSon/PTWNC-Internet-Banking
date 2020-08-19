@@ -45,13 +45,13 @@ function Tranfers(props) {
         return result;
     }
     
-    var {payment}=props;
+    var {payment,checkNameRemind,SaveName}=props;
     return (
         <Dashboard NameDashboard={"Tranfers"}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={12} lg={12}>
                     <Paper className={classes.paper}>
-                        <FormTranfer className={classes.form} getName={getName} payment={payment} onSubmit={onSubmit}></FormTranfer>
+                        <FormTranfer className={classes.form} getName={getName} checkNameRemind={checkNameRemind} SaveName={SaveName} payment={payment} onSubmit={onSubmit}></FormTranfer>
                         <Button
                             type="button"
                             variant="contained"

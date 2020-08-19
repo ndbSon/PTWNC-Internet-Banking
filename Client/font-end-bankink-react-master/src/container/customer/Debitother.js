@@ -93,7 +93,8 @@ function Debitother(props) {
             Id:values.Idaccount,
             Content:`Thanh Toan No Cho `+values.Nameaccount,
             token:values.OTP,
-            charge:0
+            charge:true,
+            ToName:values.Nameaccount,
         }
         try{
             let result = await customerApi.tranfers(req);

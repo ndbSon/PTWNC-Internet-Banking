@@ -38,8 +38,9 @@ const useStyles = makeStyles((theme) => ({
 function Fromaddmemorize(props) {
     const classes = useStyles();
     const [namefrom, setnamefrom] = useState(true);
+    const [checknamef, setcheckname] = useState(true);
     const typingtime = useRef(null)
-    var { errors, touched, values, getName, handleChange } = props;
+    var { errors, touched, values, getName, checkNameRemind, handleChange } = props;
     const [field, meta, helpers] = useField("Name");
     const { value } = meta;
     const { setValue } = helpers;
@@ -53,7 +54,11 @@ function Fromaddmemorize(props) {
         }
         typingtime.current = setTimeout(async () => {
             let result = await getName(values.ToAccount);
-            // console.log("getName: ", result)
+            let checkname = await checkNameRemind(values.ToAccount);
+            if(checkname.result){
+                setcheckname(false)
+            }
+            console.log("checkname: ", checkname)
             if (!result.err && result) {
                 setnamefrom(false);
                 setValue(result.Name);
@@ -65,8 +70,14 @@ function Fromaddmemorize(props) {
     } else if (values.FromAccount.length !== 16 && !namefrom) {
         setnamefrom(true);
     }
+    function SaveName(){
+        let {SaveName}=props;
+        SaveName({Idaccount: values.ToAccount,Name:values.Name});
+        setcheckname(true)
+    }
     return (
         <Container component="main" maxWidth="sm">
+
             <CssBaseline />
             <Typography component="h1" variant="h5">
                 Transfer
@@ -116,6 +127,15 @@ function Fromaddmemorize(props) {
                                 label="To Name" {...field} />
                         )} />
                     {touched.Name && <FormHelperText>{errors.Name}</FormHelperText>}
+                    {!checknamef ? <Button
+                    type="button"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={SaveName}>
+                    Save Name
+                    </Button> : ''}
                 </FormControl>
                 <FormControl fullWidth error={!!errors.Amount} >
                     <Field

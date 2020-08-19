@@ -49,14 +49,13 @@ router.post('/detailRSA', async (req, res) => {
 
 
 router.post("/transfersRSA", async (req, res) => {
-  var { accountNumber, amount, content, token,ToName,feeBySender} = req.body; //feeBySender :true or false
+  var { accountNumber, amount, content, token,toFullName,feeBySender} = req.body; //feeBySender :true or false
   let paymet = await customnerModel.detailpayment({ Iduser: req.tokenPayload.userId });
   let name = await banksModel.detailname(paymet[0].Id);
   const isValid = totp.verify({ token, secret: 'baoson123' });
   if (isValid === false) {
     throw createError(401, "Sai OTP");
   }
-
   if (amount > parseInt(paymet[0].Amount)) {
     throw createError(401, "Tài Khoản Không Đủ Số Dư");
   }
@@ -90,23 +89,23 @@ router.post("/transfersRSA", async (req, res) => {
     });
     // console.log("result: ", result)
     if (result.data.sign) {
-      
         let entity = {
           Amount: amount,
           Fromaccount: paymet[0].Id,
           FromName:name[0].Fullname,
           Toaccount: accountNumber,
-          ToName:ToName,
+          ToName:toFullName,
           Content: content,
           Date: moment().format('YYYY-MM-DD HH:mm:ss'),
           Sign: result.data.sign,
           Bank: "RSA",
         }
         await banksModel.addtransaction(entity)
+        console.log("feeBySender: ",feeBySender)
         if(feeBySender===true){
-          await customnerModel.updatepayment({ Amount: (parseInt(paymet[0].Amount) - parseInt(transactionAmount)-1000).toString() }, { Id: paymet[0].Id });
+          await customnerModel.updatepayment({ Amount: (parseInt(paymet[0].Amount) - parseInt(amount)-1000).toString() }, { Id: paymet[0].Id });
         }else{
-          await customnerModel.updatepayment({ Amount: (parseInt(paymet[0].Amount) - parseInt(transactionAmount)).toString() }, { Id: paymet[0].Id });
+          await customnerModel.updatepayment({ Amount: (parseInt(paymet[0].Amount) - parseInt(amount)).toString() }, { Id: paymet[0].Id });
         }
         return res.json({sign:result.data.sign});
      

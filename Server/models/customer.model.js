@@ -16,6 +16,8 @@ module.exports = {
     addaccountremind: entity => db.add(entity, 'accountremind'),
     addtransaction: entity => db.add(entity, 'transaction'),
     addebit:entity =>db.add(entity,'debit'),
+    addsaveaccount:entity=>db.add(entity,'accountsaving'),
+
 
     updatepayment: (entity,condition)=>db.update(entity,condition,'accountpayment'),
     updatedebit: (entity,condition)=>db.update(entity,condition,'debit'),
@@ -25,6 +27,7 @@ module.exports = {
     deletedebit: condition => db.del(condition, 'debit'),
 
     nameaccountremind: IdAcount => db.load(`SELECT u.Fullname from users as u where u.Id = (SELECT Iduser FROM accountpayment where Id = "${IdAcount}")`),
+    checknameremind:(IdAcount,Id)=>db.load(`SELECT * FROM accountremind where Idaccount="${IdAcount}" and Iduser="${Id}"`),
 
     countRowAll:(condition)=>db.load(`SELECT COUNT(*) as count FROM transaction where Toaccount="${condition}" or Fromaccount="${condition}"`),
     count:(condition1,condition2)=>db.load(`SELECT COUNT(*) as count FROM transaction where ${condition1}="${condition2}"`),

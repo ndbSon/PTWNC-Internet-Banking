@@ -17,8 +17,8 @@ ListTransaction.defaultProps = {
 
 export default function ListTransaction(props) {
     var {rows,Nametable,count}=props;
-    console.log("rows",rows)
-    console.log("count",typeof count)
+    // console.log("rows",rows)
+    // console.log("count",typeof count)
     const [page, setPage] = React.useState(1);
     const handleChange = (event, value) => {
       setPage(value);

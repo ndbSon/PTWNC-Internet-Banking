@@ -16,6 +16,11 @@ const userApi = {
         const url = '/customer/getNameRemind';
         return axiosClient.get(url,{params});
     },
+    checkNameRemind: (params) => {
+        const url = '/customer/checkNameRemind';
+        return axiosClient.get(url,{params});
+    },
+    
     tranfers:(value)=>{
         const uri='/customer/tranfers';
         return axiosClient.post(uri,{ ...value })

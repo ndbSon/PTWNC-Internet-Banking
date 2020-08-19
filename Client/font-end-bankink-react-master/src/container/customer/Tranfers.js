@@ -1,17 +1,19 @@
 import React from 'react';
 import Tranfersseen from '../../view/customer/Tranfers'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 // import userApi from '../api/userApi'
 import customerApi from '../../api/customerApi'
 import LocalStorageService from '../../config/LocalStorageService/LocalStorageService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ADDREMIND } from '../../action/customer';
 Tranfers.propTypes = {
 
 };
 
 function Tranfers(props) {
-    let user = useSelector(state => state.user)
+    let user = useSelector(state => state.user);
+    const dispatch = useDispatch();
     let paymet = LocalStorageService.getPayment();
     console.log("paymet: ",paymet);
     function notify(message) {
@@ -44,6 +46,31 @@ function Tranfers(props) {
             return error;
         }
     }
+    async function checkNameRemind(Id) {
+        // console.log("getName: ",Id)
+        let params = { Id }
+        try {
+            let result = await customerApi.checkNameRemind(params);
+            return result;
+        } catch (error) {
+            console.log("err: ", error);
+            return error;
+        }
+    }
+
+    async function SaveName(values){
+        try{
+            let result = await customerApi.addAccountRemind({...values});
+            if(result.succes){
+                let action = ADDREMIND(values);
+                dispatch(action);
+                notify("ADD SUCCESS")
+            }
+        }catch (error){
+            notifyerr(error.err)
+        }
+    }
+    
     async function onSubmit(values){
         console.log("values: ",values)
         let req={
@@ -66,7 +93,7 @@ function Tranfers(props) {
 
     return (
         <div>
-        <Tranfersseen SendOTP={SendOTP} getName={getName} payment={paymet} onSubmit={onSubmit}></Tranfersseen>
+        <Tranfersseen SendOTP={SendOTP} getName={getName} checkNameRemind={checkNameRemind} SaveName={SaveName} payment={paymet} onSubmit={onSubmit}></Tranfersseen>
         <ToastContainer />
         </div>
         

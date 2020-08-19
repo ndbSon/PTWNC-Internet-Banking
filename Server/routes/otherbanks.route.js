@@ -11,6 +11,7 @@ const NodeRSA = require('node-rsa');
 const createError = require('http-errors');
 const MyPGP = require('../public/myPGP/keyPGP.json');
 const PGP = require('../public/PGP/key.json');
+const customnerModel = require('../models/customer.model')
 const router = express.Router();
 
 router.post('/detail', async (req, res) => {

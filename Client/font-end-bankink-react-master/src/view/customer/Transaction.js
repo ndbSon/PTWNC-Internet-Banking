@@ -37,24 +37,7 @@ function Transaction(props) {
   const classes = useStyles();
   var [table, settable] = useState(0);
   const [limit, setLimit] = useState(5);
-  // const handleChange = (event) => {
-  //   let tempt= event.target.value;
-  //   console.log("tempt: ",tempt);
-  //   if (table === 0) {
-  //     var { allList } = props;
-  //     allList(0,1,tempt);
-  //   }else if(table===1){
-  //     var { fromList } = props;
-  //     fromList(1,1,tempt);
-  //   }else if(table===2){
-  //     var { toList } = props;
-  //     toList(2,1,tempt);
-  //   }else if(table===3){
-  //     var {DebitList}=props;
-  //     DebitList(3,1,tempt)
-  //   }
-  //   setLimit(tempt);
-  // };
+
   var { listTransaction } = props;
   // console.log("listTransaction",listTransaction.result)
   function changetale(value) {

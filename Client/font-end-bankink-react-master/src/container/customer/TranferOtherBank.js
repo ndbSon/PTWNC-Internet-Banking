@@ -85,8 +85,9 @@ function Tranfers(props) {
                 amount:parseInt(values.Amount),
                 accountNumber:values.ToAccount,
                 toFullName:values.Name,
-                Content:values.Content,
+                content:values.Content,
                 token:values.OTP,
+                feeBySender:values.Charge
             }
             try{
                 let result = await customerApi.transfersRSA(RSA);

@@ -114,6 +114,16 @@ router.get('/getNameRemind', async (req, res) => {
     }
 })
 
+router.get('/checkNameRemind', async (req, res) => {
+    let Id = req.query.Id;
+    let rows = await customnerModel.checknameremind(Id,req.tokenPayload.userId);
+   if(rows.length===0){
+      return res.json({result:true})
+   }else{
+    return res.json({result:false})
+   }
+})
+
 router.get('/listAccountRemind', async (req, res) => {
     let rows = await customnerModel.detailremind({ Iduser: req.tokenPayload.userId });
     let result = rows.map(row => {

@@ -81,6 +81,7 @@ function Fromaddmemorize(props) {
                                 margin="normal"
                                 required
                                 fullWidth
+                                type="password"
                                 label="Password Account" {...field} />
                         )} />
                     {touched.Password && <FormHelperText>{errors.Password}</FormHelperText>}
@@ -96,6 +97,7 @@ function Fromaddmemorize(props) {
                                 margin="normal"
                                 required
                                 fullWidth
+                                type="password"
                                 label="comfirm Password" {...field} />
                         )} />
                     {touched.comfirm && <FormHelperText>{errors.comfirm}</FormHelperText>}
